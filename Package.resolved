@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Idioms",
+        "repositoryURL": "https://github.com/hectr/swift-idioms.git",
+        "state": {
+          "branch": null,
+          "revision": "33f38a08bf5d5c1dfd65ac747b7329c96ac4080d",
+          "version": "2.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
