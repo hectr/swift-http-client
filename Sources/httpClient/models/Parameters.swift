@@ -8,6 +8,10 @@ public struct Parameters: Equatable {
 
     private let parameters: [Parameter]
 
+    public var isEmpty: Bool {
+        parameters.isEmpty
+    }
+
     public init(_ parameters: [Parameter]) {
         self.parameters = parameters
     }
