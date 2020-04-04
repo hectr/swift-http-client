@@ -14,6 +14,17 @@ public protocol Endpoint {
 
     var responseDeserializer: Deserializer { get }
     var responseBodyExample: Data? { get }
+
+    func updatingMethod(to method: HTTPMethod) -> Endpoint
+    func updatingBaseUrl(to baseUrl: String) -> Endpoint
+    func updatingPath(to path: String) -> Endpoint
+    func updatingQueryParameters(to queryParameters: Parameters) -> Endpoint
+    func updatingBody(to body: RequestBody) -> Endpoint
+    func updatingCachePolicy(to cachePolicy: URLRequest.CachePolicy) -> Endpoint
+    func updatingTimeoutInterval(to timeoutInterval: TimeInterval) -> Endpoint
+    func updatingHTTPHeaderFields(to httpHeaderFields: Headers) -> Endpoint
+    func updatingResponseDeserializer(to responseDeserializer: Deserializer) -> Endpoint
+    func updatingResponseBodyExample(to responseBodyExample: Data) -> Endpoint
 }
 
 // MARK: - Default values
