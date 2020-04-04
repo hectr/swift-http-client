@@ -16,7 +16,7 @@ public struct MockingNetworkProvider: NetworkProvider {
             request = try URLRequest.build(with: endpoint)
             logger.log(request: request)
         } catch {
-            let customError = Error.unconvertibleToURLRequest(endpoint, underlyingError: error)
+            let customError = Error.unconvertibleToURLRequest(endpoint, error)
             logger.log(endpoint: endpoint, error: customError)
             completion(Result<Data, Error>.failure(customError))
             return nil

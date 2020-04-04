@@ -15,7 +15,7 @@ extension String {
             stop.pointee = true
         }
         guard let result = date else {
-            throw Error.invalidDateString(self)
+            throw Error.invalidDate(self)
         }
         return result
     }

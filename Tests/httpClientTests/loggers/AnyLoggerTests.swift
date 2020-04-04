@@ -23,7 +23,7 @@ final class AnyLoggerTests: XCTestCase {
         someRequest = URLRequest(url: someURL)
         someResponse = HTTPURLResponse()
         someData = Data()
-        someError = .invalidUrlString("ínvàlïd ūrl")
+        someError = .invalidUrl("ínvàlïd ūrl")
         sut = AnyLogger(logEndpoint: { self.receivedEndpoint = $0 },
                         logEndpointError: { self.receivedEndpoint = $0; self.receivedError = $1 },
                         logRequest: { self.receivedRequest = $0 },

@@ -21,7 +21,7 @@ extension URLComponents {
         } else if let url = url {
             return url
         } else {
-            throw Error.malformedOutputUrl(self)
+            throw Error.malformedOutputURL(self)
         }
     }
 }
