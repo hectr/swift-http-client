@@ -5,6 +5,7 @@ public enum Error: Swift.Error {
     case deserializationError(Swift.Error)
     case invalidPath(URLComponents)
     case invalidPathForAuthority(URLComponents)
+    case invalidBodyParameter(Any, Data)
     case invalidIntString(String)
     case invalidUrlString(String)
     case invalidDateString(String)
