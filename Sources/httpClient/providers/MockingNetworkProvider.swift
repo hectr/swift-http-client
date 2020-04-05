@@ -22,7 +22,7 @@ public struct MockingNetworkProvider: NetworkProvider {
             return nil
         }
         defer {
-            if let bodyData = convertToData(from: endpoint.responseBodyExample) {
+            if let bodyData = Self.convertToData(from: endpoint.responseBodyExample) {
                 logger.log(response: HTTPURLResponse(), data: bodyData)
                 completion(Result<Data, Error>.success(bodyData))
             } else {
@@ -34,7 +34,7 @@ public struct MockingNetworkProvider: NetworkProvider {
         return Task()
     }
 
-    private func convertToData(from body: Body?) -> Data? {
+    static func convertToData(from body: Body?) -> Data? {
         guard let body = body else {
             return nil
         }

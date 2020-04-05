@@ -72,6 +72,24 @@ final class EndpointTests: XCTestCase {
         XCTAssertEqual(JsonBody().cURL(), expected)
     }
 
+    func testFormUrlEncodedBodyCurl() {
+        struct JsonBody: Endpoint {
+            var method = HTTPMethod.patch
+            var baseUrl = "https://example.org"
+            var path = "some/path"
+            var body = Body.formUrlEncoded(["some key": "some value"])
+            var httpHeaderFields: Headers { Headers([body.contentHeader]) }
+        }
+        let expected = """
+        curl \\
+          -X PATCH \\
+          -H 'Content-Type: application/x-www-form-urlencoded' \\
+          --data-urlencode "some%20key=some%20value" \\
+          "https://example.org/some/path"
+        """
+        XCTAssertEqual(JsonBody().cURL(), expected)
+    }
+
     func testMultipartformDataBodyCurl() {
         struct JsonBody: Endpoint {
             var method = HTTPMethod.post
