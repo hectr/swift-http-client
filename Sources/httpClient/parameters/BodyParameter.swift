@@ -1,11 +1,11 @@
 import Foundation
 
 public protocol BodyParameter {
-    func toData(options: JSONSerialization.WritingOptions) throws -> Data
+    func toJSONData(options: JSONSerialization.WritingOptions) throws -> Data
 }
 
 extension BodyParameter {
-    public func toData(options: JSONSerialization.WritingOptions = [.fragmentsAllowed]) throws -> Data {
+    public func toJSONData(options: JSONSerialization.WritingOptions = [.fragmentsAllowed]) throws -> Data {
         try JSONSerialization.data(withJSONObject: self, options: options)
     }
 }

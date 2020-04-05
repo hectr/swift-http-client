@@ -12,7 +12,7 @@ public struct BodyParameters: Equatable {
     }
 
     public func toJSONData(options: JSONSerialization.WritingOptions = [.fragmentsAllowed]) throws -> Data {
-        try bodyParameter.toData(options: options)
+        try bodyParameter.toJSONData(options: options)
     }
 
     public func toJSONString(options: JSONSerialization.WritingOptions = [.fragmentsAllowed]) throws -> String {
@@ -35,7 +35,7 @@ extension BodyParameters: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
-        try container.encode(bodyParameter.toData())
+        try container.encode(bodyParameter.toJSONData())
     }
 }
 
@@ -43,7 +43,7 @@ extension BodyParameters: Codable {
 
 extension BodyParameters {
     public static func == (lhs: BodyParameters, rhs: BodyParameters) -> Bool {
-        (try? lhs.bodyParameter.toData() == rhs.bodyParameter.toData()) ?? false
+        (try? lhs.bodyParameter.toJSONData() == rhs.bodyParameter.toJSONData()) ?? false
     }
 }
 
