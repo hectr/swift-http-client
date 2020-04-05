@@ -1,14 +1,15 @@
 import Foundation
 
 public enum HTTPMethod: String, CaseIterable, Codable, Equatable {
-    case get = "GET"
-    case put = "PUT"
-    case post = "POST"
+    case connect = "CONNECT"
     case delete = "DELETE"
+    case get = "GET"
     case head = "HEAD"
     case options = "OPTIONS"
+    case patch = "PATCH"
+    case post = "POST"
+    case put = "PUT"
     case trace = "TRACE"
-    case connect = "CONNECT"
 }
 
 // MARK: - CustomStringConvertible
