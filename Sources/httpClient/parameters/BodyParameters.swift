@@ -10,6 +10,14 @@ public struct BodyParameters: Equatable {
     public init(_ bodyParameter: BodyParameter) {
         self.bodyParameter = bodyParameter
     }
+
+    public func toJSONString(options: JSONSerialization.WritingOptions = [.fragmentsAllowed]) throws -> String {
+        let data = try bodyParameter.toData(options: options)
+        guard let string =  String(data: data, encoding: .utf8) else {
+            throw Error.stringNotDeserializable(data, .utf8)
+        }
+        return string
+    }
 }
 
 // MARK: - Codable
