@@ -2,10 +2,7 @@ import Foundation
 
 extension URLRequest {
     public static func build(with endpoint: Endpoint) throws -> URLRequest {
-        let url = try URLBuilder(baseUrl: endpoint.baseUrl)
-            .add(parameters: endpoint.queryParameters)
-            .add(path: endpoint.path)
-            .build()
+        let url = try URL.build(with: endpoint)
         let request = URLRequestBuilder(url: url)
             .add(httpHeaderFields: endpoint.httpHeaderFields)
             .set(cachePolicy: endpoint.cachePolicy)
