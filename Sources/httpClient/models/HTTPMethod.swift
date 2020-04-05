@@ -35,4 +35,3 @@ extension HTTPMethod: LosslessStringConvertible {
         self.init(rawValue: description.uppercased())
     }
 }
-

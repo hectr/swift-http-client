@@ -16,15 +16,15 @@ struct _Endpoint: Endpoint {
     var responseBodyExample: Body?
 
     init(method: HTTPMethod = .get,
-                baseUrl: String,
-                path: String,
-                queryParameters: Parameters?,
-                body: Body = .empty,
-                cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
-                timeoutInterval: TimeInterval = 20.0,
-                httpHeaderFields: Headers = [],
-                responseDeserializer: Deserializer,
-                responseBodyExample: Body? = nil) {
+         baseUrl: String,
+         path: String,
+         queryParameters: Parameters?,
+         body: Body = .empty,
+         cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+         timeoutInterval: TimeInterval = 20.0,
+         httpHeaderFields: Headers = [],
+         responseDeserializer: Deserializer,
+         responseBodyExample: Body? = nil) {
         self.method = method
         self.baseUrl = baseUrl
         self.path = path
@@ -39,14 +39,14 @@ struct _Endpoint: Endpoint {
 
     init(_ endpoint: Endpoint) {
         self.init(method: endpoint.method,
-            baseUrl: endpoint.baseUrl,
-            path: endpoint.path,
-            queryParameters: endpoint.queryParameters,
-            body: endpoint.body,
-            cachePolicy: endpoint.cachePolicy,
-            timeoutInterval: endpoint.timeoutInterval,
-            httpHeaderFields: endpoint.httpHeaderFields,
-            responseDeserializer: endpoint.responseDeserializer,
-            responseBodyExample: endpoint.responseBodyExample)
+                  baseUrl: endpoint.baseUrl,
+                  path: endpoint.path,
+                  queryParameters: endpoint.queryParameters,
+                  body: endpoint.body,
+                  cachePolicy: endpoint.cachePolicy,
+                  timeoutInterval: endpoint.timeoutInterval,
+                  httpHeaderFields: endpoint.httpHeaderFields,
+                  responseDeserializer: endpoint.responseDeserializer,
+                  responseBodyExample: endpoint.responseBodyExample)
     }
 }

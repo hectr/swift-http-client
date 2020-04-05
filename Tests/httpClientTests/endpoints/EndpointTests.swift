@@ -43,7 +43,6 @@ final class EndpointTests: XCTestCase {
             var path = "some/path"
             var body = Body.data("some data".data(using: .utf8) ?? Data())
             var httpHeaderFields: Headers { Headers([body.contentHeader]) }
-
         }
         let expected = """
         curl \\
@@ -79,9 +78,9 @@ final class EndpointTests: XCTestCase {
             var baseUrl = "https://example.org"
             var path = "some/path"
             var body = Body.multipartformData([MultipartParameter(data: Data(),
-                                                                         name: "someName",
-                                                                         fileName: "someFilename",
-                                                                         mimeType: "some/type")])
+                                                                  name: "someName",
+                                                                  fileName: "someFilename",
+                                                                  mimeType: "some/type"),])
             var httpHeaderFields: Headers { Headers([body.contentHeader]) }
         }
         let expected = """

@@ -54,7 +54,7 @@ public struct MockingNetworkProvider: NetworkProvider {
         case let .formUrlEncoded(parameters):
             return parameters.toURLComponents().percentEncodedQuery?.data(using: .utf8)
 
-        case let .multipartformData(multipartParameters):
+        case .multipartformData:
             assertionFailure("Unsupported response example body: \(body)")
             return nil
         }

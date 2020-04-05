@@ -8,7 +8,7 @@ final class URLTests: XCTestCase {
         let expectedURL = URL(string: "some.url")
         XCTAssertEqual(url, expectedURL)
     }
-    
+
     func testToURLComponents() throws {
         let someURL: URL! = "http://example.org/some/path?someKey=someValue"
         let components = try someURL.toURLComponents()

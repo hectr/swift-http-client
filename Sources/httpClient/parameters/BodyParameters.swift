@@ -12,12 +12,12 @@ public struct BodyParameters: Equatable {
     }
 
     public func toJSONData(options: JSONSerialization.WritingOptions = [.fragmentsAllowed]) throws -> Data {
-        return try bodyParameter.toData(options: options)
+        try bodyParameter.toData(options: options)
     }
 
     public func toJSONString(options: JSONSerialization.WritingOptions = [.fragmentsAllowed]) throws -> String {
         let data = try toJSONData(options: options)
-        guard let string =  String(data: data, encoding: .utf8) else {
+        guard let string = String(data: data, encoding: .utf8) else {
             throw Error.stringNotDeserializable(data, .utf8)
         }
         return string
@@ -30,7 +30,7 @@ extension BodyParameters: Codable {
     public init(from decoder: Decoder) throws {
         var container = try decoder.unkeyedContainer()
         let data = try container.decode(Data.self)
-        self.bodyParameter = try data.toBodyParameter()
+        bodyParameter = try data.toBodyParameter()
     }
 
     public func encode(to encoder: Encoder) throws {
