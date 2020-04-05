@@ -1,4 +1,5 @@
 import Foundation
+import httpClient
 
 extension URL: ExpressibleByString {
     public init?(stringRepresentation candidate: String) {
