@@ -17,6 +17,7 @@ public enum Error: Swift.Error {
     case malformedOutputURL(URLComponents)
     case invalidResponseBodyExample(Endpoint)
     case stringNotDeserializable(Data, String.Encoding)
+    case stringNotSerializable(String, String.Encoding)
     case typeMismatch(expected: Any.Type, found: Any.Type)
     case unconvertibleToURLRequest(Endpoint, Swift.Error)
     case unhandledError(Swift.Error)
