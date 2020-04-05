@@ -7,6 +7,40 @@ public enum RequestBody {
     case json(BodyParameters)
     case formUrlEncoded(Parameters)
     case multipartformData(MultipartParameters)
+
+    public var contentHeader: Header {
+        switch self {
+        case .empty:
+            return Parameter(key: "Content-Length", value: "0")
+
+        case let .string(codableString):
+            let charset = codableString
+                .encoding
+                .description
+                .components(separatedBy: "Unicode (")
+                .last?
+                .components(separatedBy: ")")
+                .first
+                ?? ""
+            if charset.hasPrefix("UTF-") {
+                return Header(key: "Content-Type", value: "text/plain; charset=\(charset)")
+            } else {
+                return Header(key: "Content-Type", value: "text/plain")
+            }
+
+        case .data:
+            return Header(key: "Content-Type", value: "application/octet-stream")
+
+        case .json:
+            return Header(key: "Content-Type", value: "application/json; charset=UTF-8")
+
+        case .formUrlEncoded:
+            return Header(key: "Content-Type", value: "application/x-www-form-urlencoded")
+
+        case .multipartformData:
+            return Header(key: "Content-Type", value: "multipart/form-data")
+        }
+    }
 }
 
 // MARK: - Codable
