@@ -15,8 +15,8 @@ final class InternalEndpointTests: XCTestCase {
     var anotherPath: String!
     var someParameters: Parameters!
     var anotherParameters: Parameters!
-    var someBody: RequestBody!
-    var anotherBody: RequestBody!
+    var someBody: Body!
+    var anotherBody: Body!
     var someTimeoutInterval: TimeInterval!
     var anotherTimeoutInterval: TimeInterval!
     var someCachePolicy: URLRequest.CachePolicy!

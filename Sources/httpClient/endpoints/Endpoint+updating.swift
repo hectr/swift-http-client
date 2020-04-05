@@ -25,7 +25,7 @@ extension Endpoint {
         return endpoint
     }
 
-    public func updatingBody(to body: RequestBody) -> Endpoint {
+    public func updatingBody(to body: Body) -> Endpoint {
         var endpoint = _Endpoint(self)
         endpoint.body = body
         return endpoint

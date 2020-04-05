@@ -1,6 +1,6 @@
 import Foundation
 
-public enum RequestBody {
+public enum Body {
     case empty
     case string(CodableString)
     case data(Data)
@@ -45,7 +45,7 @@ public enum RequestBody {
 
 // MARK: - Codable
 
-extension RequestBody: Codable {
+extension Body: Codable {
     enum CodingKeys: String, CodingKey {
         case string
         case data
@@ -128,15 +128,15 @@ extension RequestBody: Codable {
 
 // MARK: - Equatable
 
-extension RequestBody: Equatable {
-    public static func == (lhs: RequestBody, rhs: RequestBody) -> Bool {
+extension Body: Equatable {
+    public static func == (lhs: Body, rhs: Body) -> Bool {
         lhs.associatedValues == rhs.associatedValues
     }
 }
 
 // MARK: - ExpressibleByArrayLiteral
 
-extension RequestBody: ExpressibleByArrayLiteral {
+extension Body: ExpressibleByArrayLiteral {
     public typealias ArrayLiteralElement = BodyParameter
 
     public init(arrayLiteral elements: BodyParameter...) {
@@ -146,7 +146,7 @@ extension RequestBody: ExpressibleByArrayLiteral {
 
 // MARK: - ExpressibleByDictionaryLiteral
 
-extension RequestBody: ExpressibleByDictionaryLiteral {
+extension Body: ExpressibleByDictionaryLiteral {
     public typealias Key = String
     public typealias Value = BodyParameter
 
@@ -158,7 +158,7 @@ extension RequestBody: ExpressibleByDictionaryLiteral {
 
 // MARK: - ExpressibleByStringLiteral
 
-extension RequestBody: ExpressibleByStringLiteral, ExpressibleByExtendedGraphemeClusterLiteral, ExpressibleByUnicodeScalarLiteral {
+extension Body: ExpressibleByStringLiteral, ExpressibleByExtendedGraphemeClusterLiteral, ExpressibleByUnicodeScalarLiteral {
     public typealias ExtendedGraphemeClusterLiteralType = String
     public typealias UnicodeScalarLiteralType = String
 

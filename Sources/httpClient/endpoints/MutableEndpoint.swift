@@ -6,7 +6,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
     public var path: String
     public var queryParameters: Parameters?
 
-    public var body: RequestBody
+    public var body: Body
 
     public var cachePolicy: URLRequest.CachePolicy
     public var timeoutInterval: TimeInterval
@@ -23,7 +23,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
                 baseUrl: String,
                 path: String,
                 queryParameters: Parameters?,
-                body: RequestBody = .empty,
+                body: Body = .empty,
                 cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 timeoutInterval: TimeInterval = 20.0,
                 httpHeaderFields: Headers = [],

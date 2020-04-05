@@ -27,12 +27,12 @@ public class EndpointMock: Endpoint {
 
     public var queryParameters: Parameters?
 
-    public var body: RequestBody {
+    public var body: Body {
         get { underlyingBody }
         set(value) { underlyingBody = value }
     }
 
-    public var underlyingBody: RequestBody!
+    public var underlyingBody: Body!
 
     public var cachePolicy: URLRequest.CachePolicy {
         get { underlyingCachePolicy }

@@ -6,7 +6,7 @@ struct _Endpoint: Endpoint {
     var path: String
     var queryParameters: Parameters?
 
-    var body: RequestBody
+    var body: Body
 
     var cachePolicy: URLRequest.CachePolicy
     var timeoutInterval: TimeInterval
@@ -19,7 +19,7 @@ struct _Endpoint: Endpoint {
                 baseUrl: String,
                 path: String,
                 queryParameters: Parameters?,
-                body: RequestBody = .empty,
+                body: Body = .empty,
                 cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 timeoutInterval: TimeInterval = 20.0,
                 httpHeaderFields: Headers = [],

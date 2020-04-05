@@ -11,7 +11,7 @@ final class MockingNetworkProviderShould: XCTestCase {
     var someBaseUrl: String!
     var somePath: String!
     var someParameters: Parameters!
-    var someBody: RequestBody!
+    var someBody: Body!
     var someTimeoutInterval: TimeInterval!
     var someCachePolicy: URLRequest.CachePolicy!
     var someDeserializer: StringDeserializer!

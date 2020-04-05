@@ -6,7 +6,7 @@ public protocol Endpoint {
     var path: String { get }
     var queryParameters: Parameters? { get }
 
-    var body: RequestBody { get }
+    var body: Body { get }
 
     var cachePolicy: URLRequest.CachePolicy { get }
     var timeoutInterval: TimeInterval { get }
@@ -19,7 +19,7 @@ public protocol Endpoint {
     func updatingBaseUrl(to baseUrl: String) -> Endpoint
     func updatingPath(to path: String) -> Endpoint
     func updatingQueryParameters(to queryParameters: Parameters) -> Endpoint
-    func updatingBody(to body: RequestBody) -> Endpoint
+    func updatingBody(to body: Body) -> Endpoint
     func updatingCachePolicy(to cachePolicy: URLRequest.CachePolicy) -> Endpoint
     func updatingTimeoutInterval(to timeoutInterval: TimeInterval) -> Endpoint
     func updatingHTTPHeaderFields(to httpHeaderFields: Headers) -> Endpoint
@@ -33,7 +33,7 @@ extension Endpoint {
     public var method: HTTPMethod { .get }
     public var queryParameters: Parameters? { nil }
 
-    public var body: RequestBody { .empty }
+    public var body: Body { .empty }
 
     public var cachePolicy: URLRequest.CachePolicy { .useProtocolCachePolicy }
     public var timeoutInterval: TimeInterval { 20.0 }

@@ -23,7 +23,7 @@ final class EndpointTests: XCTestCase {
             var method = HTTPMethod.post
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var body = RequestBody.string(CodableString(string: "some string", encoding: .utf8))
+            var body = Body.string(CodableString(string: "some string", encoding: .utf8))
             var httpHeaderFields: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
@@ -41,7 +41,7 @@ final class EndpointTests: XCTestCase {
             var method = HTTPMethod.put
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var body = RequestBody.data("some data".data(using: .utf8) ?? Data())
+            var body = Body.data("some data".data(using: .utf8) ?? Data())
             var httpHeaderFields: Headers { Headers([body.contentHeader]) }
 
         }
@@ -60,7 +60,7 @@ final class EndpointTests: XCTestCase {
             var method = HTTPMethod.patch
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var body = RequestBody.json(["some key": "some value"])
+            var body = Body.json(["some key": "some value"])
             var httpHeaderFields: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
@@ -78,7 +78,7 @@ final class EndpointTests: XCTestCase {
             var method = HTTPMethod.post
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var body = RequestBody.multipartformData([MultipartParameter(data: Data(),
+            var body = Body.multipartformData([MultipartParameter(data: Data(),
                                                                          name: "someName",
                                                                          fileName: "someFilename",
                                                                          mimeType: "some/type")])
