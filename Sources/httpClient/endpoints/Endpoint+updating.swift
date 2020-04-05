@@ -19,7 +19,7 @@ extension Endpoint {
         return endpoint
     }
 
-    public func updatingQueryParameters(to queryParameters: Parameters) -> Endpoint {
+    public func updatingQueryParameters(to queryParameters: Parameters?) -> Endpoint {
         var endpoint = _Endpoint(self)
         endpoint.queryParameters = queryParameters
         return endpoint
@@ -55,7 +55,7 @@ extension Endpoint {
         return endpoint
     }
 
-    public func updatingResponseBodyExample(to responseBodyExample: Data) -> Endpoint {
+    public func updatingResponseBodyExample(to responseBodyExample: Body?) -> Endpoint {
         var endpoint = _Endpoint(self)
         endpoint.responseBodyExample = responseBodyExample
         return endpoint

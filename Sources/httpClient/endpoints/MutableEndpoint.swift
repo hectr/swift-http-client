@@ -17,7 +17,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
         concreteDeserializer
     }
 
-    public var responseBodyExample: Data?
+    public var responseBodyExample: Body?
 
     public init(method: HTTPMethod = .get,
                 baseUrl: String,
@@ -28,7 +28,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
                 timeoutInterval: TimeInterval = 20.0,
                 httpHeaderFields: Headers = [],
                 concreteDeserializer: DeserializerType,
-                responseBodyExample: Data? = nil) {
+                responseBodyExample: Body? = nil) {
         self.method = method
         self.baseUrl = baseUrl
         self.path = path

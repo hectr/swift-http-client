@@ -22,15 +22,41 @@ public struct MockingNetworkProvider: NetworkProvider {
             return nil
         }
         defer {
-            if let responseBodyExample = endpoint.responseBodyExample {
-                logger.log(response: HTTPURLResponse(), data: responseBodyExample)
-                completion(Result<Data, Error>.success(responseBodyExample))
+            if let bodyData = convertToData(from: endpoint.responseBodyExample) {
+                logger.log(response: HTTPURLResponse(), data: bodyData)
+                completion(Result<Data, Error>.success(bodyData))
             } else {
-                let error = Error.missingResponseBodyExample(endpoint)
+                let error = Error.invalidResponseBodyExample(endpoint)
                 logger.log(request: request, error: error)
                 completion(Result<Data, Error>.failure(error))
             }
         }
         return Task()
+    }
+
+    private func convertToData(from body: Body?) -> Data? {
+        guard let body = body else {
+            return nil
+        }
+        switch body {
+        case .empty:
+            return Data()
+
+        case let .string(codableString):
+            return codableString.string.data(using: codableString.encoding)
+
+        case let .data(data):
+            return data
+
+        case let .json(bodyParameters):
+            return try? bodyParameters.toJSONData()
+
+        case let .formUrlEncoded(parameters):
+            return parameters.toURLComponents().percentEncodedQuery?.data(using: .utf8)
+
+        case let .multipartformData(multipartParameters):
+            assertionFailure("Unsupported response example body: \(body)")
+            return nil
+        }
     }
 }

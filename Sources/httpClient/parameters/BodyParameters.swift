@@ -11,8 +11,12 @@ public struct BodyParameters: Equatable {
         self.bodyParameter = bodyParameter
     }
 
+    public func toJSONData(options: JSONSerialization.WritingOptions = [.fragmentsAllowed]) throws -> Data {
+        return try bodyParameter.toData(options: options)
+    }
+
     public func toJSONString(options: JSONSerialization.WritingOptions = [.fragmentsAllowed]) throws -> String {
-        let data = try bodyParameter.toData(options: options)
+        let data = try toJSONData(options: options)
         guard let string =  String(data: data, encoding: .utf8) else {
             throw Error.stringNotDeserializable(data, .utf8)
         }

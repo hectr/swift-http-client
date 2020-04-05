@@ -13,7 +13,7 @@ struct _Endpoint: Endpoint {
     var httpHeaderFields: Headers
 
     var responseDeserializer: Deserializer
-    var responseBodyExample: Data?
+    var responseBodyExample: Body?
 
     init(method: HTTPMethod = .get,
                 baseUrl: String,
@@ -24,7 +24,7 @@ struct _Endpoint: Endpoint {
                 timeoutInterval: TimeInterval = 20.0,
                 httpHeaderFields: Headers = [],
                 responseDeserializer: Deserializer,
-                responseBodyExample: Data? = nil) {
+                responseBodyExample: Body? = nil) {
         self.method = method
         self.baseUrl = baseUrl
         self.path = path

@@ -16,6 +16,7 @@ final class MockingNetworkProviderShould: XCTestCase {
     var someCachePolicy: URLRequest.CachePolicy!
     var someDeserializer: StringDeserializer!
     var someData: Data!
+    var someResponseBody: Body?
     var someLogger: LoggerMock!
 
     override func setUp() {
@@ -26,6 +27,7 @@ final class MockingNetworkProviderShould: XCTestCase {
         somePath = "path"
         someParameters = [("key", "value")]
         someBody = .empty
+        someData = "some data"
         someCachePolicy = .useProtocolCachePolicy
         someTimeoutInterval = 20
         someDeserializer = StringDeserializer()
@@ -34,12 +36,12 @@ final class MockingNetworkProviderShould: XCTestCase {
     }
 
     func givenHasResponseBodyExample() {
-        someData = "some data"
+        someResponseBody = .data(someData)
         buildEndpoint()
     }
 
     func givenHasNotResponseBodyExample() {
-        someData = nil
+        someResponseBody = nil
         buildEndpoint()
     }
 
@@ -54,7 +56,7 @@ final class MockingNetworkProviderShould: XCTestCase {
             timeoutInterval: someTimeoutInterval,
             httpHeaderFields: someHeaders,
             concreteDeserializer: StringDeserializer(),
-            responseBodyExample: someData
+            responseBodyExample: someResponseBody
         )
     }
 
@@ -64,7 +66,7 @@ final class MockingNetworkProviderShould: XCTestCase {
         _ = sut.performRequest(to: someEndpoint) { result in
             switch result {
             case let .success(data):
-                XCTAssertEqual(self.someData, data)
+                XCTAssertEqual(self.someResponseBody, .data(data))
 
             case .failure:
                 XCTFail()

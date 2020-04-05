@@ -57,5 +57,5 @@ public class EndpointMock: Endpoint {
 
     public var underlyingResponseDeserializer: Deserializer!
 
-    public var responseBodyExample: Data?
+    public var responseBodyExample: Body?
 }

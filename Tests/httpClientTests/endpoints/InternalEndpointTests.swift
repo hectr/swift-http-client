@@ -57,7 +57,7 @@ final class InternalEndpointTests: XCTestCase {
                                  timeoutInterval: someTimeoutInterval,
                                  httpHeaderFields: someHeaders,
                                  responseDeserializer: StringDeserializer(),
-                                 responseBodyExample: someData)
+                                 responseBodyExample: .data(someData))
     }
 
     func testEndpointMutatingMethods() {
@@ -71,7 +71,7 @@ final class InternalEndpointTests: XCTestCase {
             .updatingTimeoutInterval(to: anotherTimeoutInterval)
             .updatingHTTPHeaderFields(to: anotherHeaders)
             .updatingResponseDeserializer(to: anotherDeserializer)
-            .updatingResponseBodyExample(to: anotherData)
+            .updatingResponseBodyExample(to: .data(anotherData))
         XCTAssertEqual(anotherEndpoint.method, anotherHttpMethod)
         XCTAssertEqual(anotherEndpoint.baseUrl, anotherBaseUrl)
         XCTAssertEqual(anotherEndpoint.path, anotherPath)
@@ -81,7 +81,7 @@ final class InternalEndpointTests: XCTestCase {
         XCTAssertEqual(anotherEndpoint.timeoutInterval, anotherTimeoutInterval)
         XCTAssertEqual(anotherEndpoint.httpHeaderFields, anotherHeaders)
         XCTAssertTrue(anotherEndpoint.responseDeserializer is DataDeserializer)
-        XCTAssertEqual(anotherEndpoint.responseBodyExample, anotherData)
+        XCTAssertEqual(anotherEndpoint.responseBodyExample, .data(anotherData))
     }
 
     func testInitInternalEndpointWithEndpoint() {
@@ -95,6 +95,6 @@ final class InternalEndpointTests: XCTestCase {
         XCTAssertEqual(equivalent.timeoutInterval, someTimeoutInterval)
         XCTAssertEqual(equivalent.httpHeaderFields, someHeaders)
         XCTAssertTrue(equivalent.responseDeserializer is StringDeserializer)
-        XCTAssertEqual(equivalent.responseBodyExample, someData)
+        XCTAssertEqual(equivalent.responseBodyExample, .data(someData))
     }
 }
