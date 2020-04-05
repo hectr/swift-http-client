@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Package",
+    name: "httpClient",
     platforms: [
         .macOS(.v10_12),
         .iOS(.v10),
