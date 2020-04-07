@@ -30,7 +30,7 @@ extension Endpoint {
                     value.lowercased().contains(word: "gzip") {
                     lines.append("--compressed")
                 }
-        }
+            }
     }
 
     private func escapedBody(_ string: String) -> String {

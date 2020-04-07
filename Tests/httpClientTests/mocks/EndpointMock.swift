@@ -1,61 +1,61 @@
 import Foundation
 import httpClient
 
-public class EndpointMock: Endpoint {
-    public init() {}
+class EndpointMock: Endpoint {
+    init() {}
 
-    public var method: HTTPMethod {
+    var method: HTTPMethod {
         get { underlyingMethod }
         set(value) { underlyingMethod = value }
     }
 
-    public var underlyingMethod: HTTPMethod!
+    var underlyingMethod: HTTPMethod!
 
-    public var baseUrl: String {
+    var baseUrl: String {
         get { underlyingBaseUrl }
         set(value) { underlyingBaseUrl = value }
     }
 
-    public var underlyingBaseUrl: String!
+    var underlyingBaseUrl: String!
 
-    public var path: String {
+    var path: String {
         get { underlyingPath }
         set(value) { underlyingPath = value }
     }
 
-    public var underlyingPath: String!
+    var underlyingPath: String!
 
-    public var queryParameters: Parameters?
+    var queryParameters: Parameters?
 
-    public var body: Body {
+    var body: Body {
         get { underlyingBody }
         set(value) { underlyingBody = value }
     }
 
-    public var underlyingBody: Body!
+    var underlyingBody: Body!
 
-    public var cachePolicy: URLRequest.CachePolicy {
+    var cachePolicy: URLRequest.CachePolicy {
         get { underlyingCachePolicy }
         set(value) { underlyingCachePolicy = value }
     }
 
-    public var underlyingCachePolicy: URLRequest.CachePolicy!
+    var underlyingCachePolicy: URLRequest.CachePolicy!
 
-    public var timeoutInterval: TimeInterval {
+    var timeoutInterval: TimeInterval {
         get { underlyingTimeoutInterval }
         set(value) { underlyingTimeoutInterval = value }
     }
 
-    public var underlyingTimeoutInterval: TimeInterval!
+    var underlyingTimeoutInterval: TimeInterval!
 
-    public var headers: Headers = []
+    var headers: Headers = []
 
-    public var responseDeserializer: Deserializer {
+    var responseDeserializer: Deserializer {
         get { underlyingResponseDeserializer }
         set(value) { underlyingResponseDeserializer = value }
     }
 
-    public var underlyingResponseDeserializer: Deserializer!
+    var underlyingResponseDeserializer: Deserializer!
 
-    public var responseBodyExample: Body?
+    var responseBodyExample: Body?
 }

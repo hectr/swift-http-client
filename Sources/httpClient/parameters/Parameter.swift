@@ -32,14 +32,3 @@ extension Parameter: Codable {
         try components.percentEncodedQuery.encode(to: encoder)
     }
 }
-
-// MARK: - ExpressibleByString
-
-extension Parameter: ExpressibleByString {
-    public init?(stringRepresentation candidate: String) {
-        guard let queryItem = try? candidate.toURLQueryItem() else {
-            return nil
-        }
-        self = queryItem.toParameter()
-    }
-}

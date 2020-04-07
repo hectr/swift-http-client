@@ -42,7 +42,7 @@ final class URLRequestBuilderTests: XCTestCase {
         sut.add(httpHeaderField: Header(key: "Accept", value: json))
         sut.add(httpHeaderField: Header(key: "Accept", value: text))
         XCTAssertEqual(sut.build().allHTTPHeaderFields, ["Content-Type": formUrlEncoded,
-                                                         "Accept": "\(json),\(text)",])
+                                                         "Accept": "\(json),\(text)"])
     }
 
     func testSetHttpBody() {

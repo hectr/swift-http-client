@@ -82,19 +82,14 @@ extension Body: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if let value = try container.decodeIfPresent(MultipartParameters.self, forKey: .multipartParameters) {
             self = .multipartformData(value)
-
         } else if let value = try container.decodeIfPresent(Parameters.self, forKey: .parameters) {
             self = .formUrlEncoded(value)
-
         } else if let value = try container.decodeIfPresent(BodyParameters.self, forKey: .json) {
             self = .json(value)
-
         } else if let value = try container.decodeIfPresent(Data.self, forKey: .data) {
             self = .data(value)
-
         } else if let value = try container.decodeIfPresent(CodableString.self, forKey: .string) {
             self = .string(value)
-
         } else {
             self = .empty
         }

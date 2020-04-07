@@ -111,7 +111,7 @@ final class EndpointTests: XCTestCase {
             var body = Body.multipartformData([MultipartParameter(data: Data(),
                                                                   name: "someName",
                                                                   fileName: "someFilename",
-                                                                  mimeType: "some/type"),])
+                                                                  mimeType: "some/type")])
             var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """

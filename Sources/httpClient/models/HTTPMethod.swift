@@ -20,14 +20,6 @@ extension HTTPMethod: CustomStringConvertible {
     }
 }
 
-// MARK: - ExpressibleByString
-
-extension HTTPMethod: ExpressibleByString {
-    public init?(stringRepresentation candidate: String) {
-        self.init(candidate)
-    }
-}
-
 // MARK: - LosslessStringConvertible
 
 extension HTTPMethod: LosslessStringConvertible {
