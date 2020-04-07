@@ -3,6 +3,19 @@ import Foundation
 import XCTest
 
 final class EndpointTests: XCTestCase {
+    func testCurlVerbose() {
+        struct SomeEndpoint: Endpoint {
+            var baseUrl = "https://example.org"
+            var path = "some/path"
+        }
+        let expected = """
+        curl --verbose \\
+          -X GET \\
+          "https://example.org/some/path"
+        """
+        XCTAssertEqual(SomeEndpoint().cURL(), expected)
+    }
+
     func testEmptyBodyCurl() {
         struct EmptyBody: Endpoint {
             var baseUrl = "https://example.org"
@@ -15,7 +28,7 @@ final class EndpointTests: XCTestCase {
           -H 'Content-Length: 0' \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(EmptyBody().cURL(), expected)
+        XCTAssertEqual(EmptyBody().cURL(verbose: false), expected)
     }
 
     func testStringBodyCurl() {
@@ -33,7 +46,7 @@ final class EndpointTests: XCTestCase {
           --data-binary "some string" \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(StringBody().cURL(), expected)
+        XCTAssertEqual(StringBody().cURL(verbose: false), expected)
     }
 
     func testDataBodyCurl() {
@@ -51,7 +64,7 @@ final class EndpointTests: XCTestCase {
           --data-binary "some data" \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(DataBody().cURL(), expected)
+        XCTAssertEqual(DataBody().cURL(verbose: false), expected)
     }
 
     func testJsonBodyCurl() {
@@ -69,7 +82,7 @@ final class EndpointTests: XCTestCase {
           --data-binary "{\\"some key\\":\\"some value\\"}" \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(JsonBody().cURL(), expected)
+        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
     }
 
     func testFormUrlEncodedBodyCurl() {
@@ -87,7 +100,7 @@ final class EndpointTests: XCTestCase {
           --data-urlencode "some%20key=some%20value" \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(JsonBody().cURL(), expected)
+        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
     }
 
     func testMultipartformDataBodyCurl() {
@@ -108,6 +121,6 @@ final class EndpointTests: XCTestCase {
           --form name=someName;filename=someFilename;data=@filename;type=some/type \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(JsonBody().cURL(), expected)
+        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
     }
 }

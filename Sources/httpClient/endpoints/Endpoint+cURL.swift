@@ -2,40 +2,25 @@ import Foundation
 import Idioms
 
 extension Endpoint {
-    public func cURL(replaceNewLinesInRawBodyWithSpaces: Bool = false,
-                     replaceTabsInRawBodyWithSpaces: Bool = false,
-                     bodyEncoding: String.Encoding = .utf8) -> String {
-        var command = Self.cURL(endpoint: self,
-                                bodyEncoding: bodyEncoding)
-        if replaceTabsInRawBodyWithSpaces {
-            command = command.replacingOccurrences(of: "\t", with: "    ")
-        }
-        if replaceNewLinesInRawBodyWithSpaces {
-            command = command.replacingOccurrences(of: "\n", with: " ")
-        }
-        return command
-    }
-
-    private static func cURL(endpoint: Endpoint,
-                             bodyEncoding: String.Encoding) -> String {
+    public func cURL(verbose: Bool = true,
+                     fallbackBodyEncoding: String.Encoding = .utf8) -> String {
         var lines = [String]()
-        lines.append("-X \(endpoint.method.rawValue)")
-        lines.append(contentsOf: buildHeaders(for: endpoint))
-        lines.append(contentsOf: buildBody(for: endpoint, encoding: bodyEncoding))
-        if let url = try? URL.build(with: endpoint) {
+        lines.append("-X \(method.rawValue)")
+        lines.append(contentsOf: buildHeaders())
+        lines.append(contentsOf: buildBody(fallbackEncoding: fallbackBodyEncoding))
+        if let url = try? URL.build(with: self) {
             lines.append(contentsOf: buildCookies(for: url))
             lines.append("\"\(url.absoluteString)\"")
         }
         return lines
             .map { $0.trimmingCharacters(in: .whitespaces) }
             .map { $0.prepending("  ") }
-            .prepending("curl")
+            .prepending(verbose ? "curl --verbose" : "curl")
             .joined(separator: " \\\n")
     }
 
-    private static func buildHeaders(for endpoint: Endpoint) -> [String] {
-        endpoint
-            .httpHeaderFields
+    private func buildHeaders() -> [String] {
+        httpHeaderFields
             .reduce(into: [String]()) { lines, field in
                 let name = field.key
                 let value = field.value.replacingOccurrences(of: "\'", with: "\\\'")
@@ -45,10 +30,10 @@ extension Endpoint {
                     value.lowercased().contains(word: "gzip") {
                     lines.append("--compressed")
                 }
-            }
+        }
     }
 
-    private static func escapedBody(_ string: String) -> String {
+    private func escapedBody(_ string: String) -> String {
         string
             .replacingOccurrences(of: "\\", with: "\\\\")
             .replacingOccurrences(of: "`", with: "\\`")
@@ -56,7 +41,7 @@ extension Endpoint {
             .replacingOccurrences(of: "$", with: "\\$")
     }
 
-    private static func buildFormParameter(from multipartParameter: MultipartParameter) -> String {
+    private func buildFormParameter(from multipartParameter: MultipartParameter) -> String {
         var components = [String]()
         if !multipartParameter.name.isEmpty {
             components.append("name=\(multipartParameter.name)")
@@ -71,8 +56,8 @@ extension Endpoint {
         return "--form \(components.joined(separator: ";"))"
     }
 
-    private static func buildBody(for endpoint: Endpoint, encoding: String.Encoding) -> [String] {
-        switch endpoint.body {
+    private func buildBody(fallbackEncoding: String.Encoding) -> [String] {
+        switch body {
         case .empty:
             return []
 
@@ -80,7 +65,7 @@ extension Endpoint {
             return ["--data-binary \"\(escapedBody(codableString.string))\""]
 
         case let .data(data):
-            if let string = String(data: data, encoding: encoding) {
+            if let string = String(data: data, encoding: fallbackEncoding) {
                 return ["--data-binary \"\(escapedBody(string))\""]
             } else {
                 return ["--data-binary @filename"]
@@ -105,7 +90,7 @@ extension Endpoint {
         }
     }
 
-    private static func buildCookies(for url: URL) -> [String] {
+    private func buildCookies(for url: URL) -> [String] {
         if let cookies = HTTPCookieStorage.shared.cookies(for: url) {
             return cookies.map { "--cookie \"\($0.name)=\($0.value)\"" }
         } else {
