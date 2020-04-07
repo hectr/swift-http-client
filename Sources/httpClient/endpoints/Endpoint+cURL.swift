@@ -20,7 +20,7 @@ extension Endpoint {
     }
 
     private func buildHeaders() -> [String] {
-        httpHeaderFields
+        headers
             .reduce(into: [String]()) { lines, field in
                 let name = field.key
                 let value = field.value.replacingOccurrences(of: "\'", with: "\\\'")

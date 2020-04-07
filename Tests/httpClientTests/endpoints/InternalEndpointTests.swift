@@ -55,7 +55,7 @@ final class InternalEndpointTests: XCTestCase {
                                  body: someBody,
                                  cachePolicy: someCachePolicy,
                                  timeoutInterval: someTimeoutInterval,
-                                 httpHeaderFields: someHeaders,
+                                 headers: someHeaders,
                                  responseDeserializer: StringDeserializer(),
                                  responseBodyExample: .data(someData))
     }
@@ -69,7 +69,7 @@ final class InternalEndpointTests: XCTestCase {
             .updatingBody(to: anotherBody)
             .updatingCachePolicy(to: anotherCachePolicy)
             .updatingTimeoutInterval(to: anotherTimeoutInterval)
-            .updatingHTTPHeaderFields(to: anotherHeaders)
+            .updatingHeaders(to: anotherHeaders)
             .updatingResponseDeserializer(to: anotherDeserializer)
             .updatingResponseBodyExample(to: .data(anotherData))
         XCTAssertEqual(anotherEndpoint.method, anotherHttpMethod)
@@ -79,7 +79,7 @@ final class InternalEndpointTests: XCTestCase {
         XCTAssertEqual(anotherEndpoint.body, anotherBody)
         XCTAssertEqual(anotherEndpoint.cachePolicy, anotherCachePolicy)
         XCTAssertEqual(anotherEndpoint.timeoutInterval, anotherTimeoutInterval)
-        XCTAssertEqual(anotherEndpoint.httpHeaderFields, anotherHeaders)
+        XCTAssertEqual(anotherEndpoint.headers, anotherHeaders)
         XCTAssertTrue(anotherEndpoint.responseDeserializer is DataDeserializer)
         XCTAssertEqual(anotherEndpoint.responseBodyExample, .data(anotherData))
     }
@@ -93,7 +93,7 @@ final class InternalEndpointTests: XCTestCase {
         XCTAssertEqual(equivalent.body, someBody)
         XCTAssertEqual(equivalent.cachePolicy, someCachePolicy)
         XCTAssertEqual(equivalent.timeoutInterval, someTimeoutInterval)
-        XCTAssertEqual(equivalent.httpHeaderFields, someHeaders)
+        XCTAssertEqual(equivalent.headers, someHeaders)
         XCTAssertTrue(equivalent.responseDeserializer is StringDeserializer)
         XCTAssertEqual(equivalent.responseBodyExample, .data(someData))
     }

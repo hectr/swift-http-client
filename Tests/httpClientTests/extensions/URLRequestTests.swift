@@ -22,7 +22,7 @@ final class URLRequestTests: XCTestCase {
         someCachePolicy = .useProtocolCachePolicy
         someTimeoutInterval = 20
         someEndpoint = EndpointMock()
-        someEndpoint.httpHeaderFields = someHeaders
+        someEndpoint.headers = someHeaders
         someEndpoint.method = someHttpMethod
         someEndpoint.baseUrl = someBaseUrl
         someEndpoint.path = somePath

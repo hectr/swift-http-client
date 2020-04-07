@@ -10,7 +10,7 @@ struct _Endpoint: Endpoint {
 
     var cachePolicy: URLRequest.CachePolicy
     var timeoutInterval: TimeInterval
-    var httpHeaderFields: Headers
+    var headers: Headers
 
     var responseDeserializer: Deserializer
     var responseBodyExample: Body?
@@ -22,7 +22,7 @@ struct _Endpoint: Endpoint {
          body: Body = .empty,
          cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
          timeoutInterval: TimeInterval = 20.0,
-         httpHeaderFields: Headers = [],
+         headers: Headers = [],
          responseDeserializer: Deserializer,
          responseBodyExample: Body? = nil) {
         self.method = method
@@ -32,7 +32,7 @@ struct _Endpoint: Endpoint {
         self.body = body
         self.cachePolicy = cachePolicy
         self.timeoutInterval = timeoutInterval
-        self.httpHeaderFields = httpHeaderFields
+        self.headers = headers
         self.responseDeserializer = responseDeserializer
         self.responseBodyExample = responseBodyExample
     }
@@ -45,7 +45,7 @@ struct _Endpoint: Endpoint {
                   body: endpoint.body,
                   cachePolicy: endpoint.cachePolicy,
                   timeoutInterval: endpoint.timeoutInterval,
-                  httpHeaderFields: endpoint.httpHeaderFields,
+                  headers: endpoint.headers,
                   responseDeserializer: endpoint.responseDeserializer,
                   responseBodyExample: endpoint.responseBodyExample)
     }

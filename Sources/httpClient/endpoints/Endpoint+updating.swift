@@ -43,9 +43,9 @@ extension Endpoint {
         return endpoint
     }
 
-    public func updatingHTTPHeaderFields(to httpHeaderFields: Headers) -> Endpoint {
+    public func updatingHeaders(to headers: Headers) -> Endpoint {
         var endpoint = _Endpoint(self)
-        endpoint.httpHeaderFields = httpHeaderFields
+        endpoint.headers = headers
         return endpoint
     }
 

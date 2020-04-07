@@ -10,7 +10,7 @@ public protocol Endpoint {
 
     var cachePolicy: URLRequest.CachePolicy { get }
     var timeoutInterval: TimeInterval { get }
-    var httpHeaderFields: Headers { get }
+    var headers: Headers { get }
 
     var responseDeserializer: Deserializer { get }
     var responseBodyExample: Body? { get }
@@ -22,7 +22,7 @@ public protocol Endpoint {
     func updatingBody(to body: Body) -> Endpoint
     func updatingCachePolicy(to cachePolicy: URLRequest.CachePolicy) -> Endpoint
     func updatingTimeoutInterval(to timeoutInterval: TimeInterval) -> Endpoint
-    func updatingHTTPHeaderFields(to httpHeaderFields: Headers) -> Endpoint
+    func updatingHeaders(to httpHeaderFields: Headers) -> Endpoint
     func updatingResponseDeserializer(to responseDeserializer: Deserializer) -> Endpoint
     func updatingResponseBodyExample(to responseBodyExample: Body?) -> Endpoint
 }
@@ -37,7 +37,7 @@ extension Endpoint {
 
     public var cachePolicy: URLRequest.CachePolicy { .useProtocolCachePolicy }
     public var timeoutInterval: TimeInterval { 20.0 }
-    public var httpHeaderFields: Headers { [] }
+    public var headers: Headers { [] }
 
     public var responseDeserializer: Deserializer { JSONDeserializer() }
     public var responseBodyExample: Body? { nil }

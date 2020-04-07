@@ -20,7 +20,7 @@ final class EndpointTests: XCTestCase {
         struct EmptyBody: Endpoint {
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var httpHeaderFields: Headers { Headers([body.contentHeader]) }
+            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -37,7 +37,7 @@ final class EndpointTests: XCTestCase {
             var baseUrl = "https://example.org"
             var path = "some/path"
             var body = Body.string(CodableString(string: "some string", encoding: .utf8))
-            var httpHeaderFields: Headers { Headers([body.contentHeader]) }
+            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -55,7 +55,7 @@ final class EndpointTests: XCTestCase {
             var baseUrl = "https://example.org"
             var path = "some/path"
             var body = Body.data("some data".data(using: .utf8) ?? Data())
-            var httpHeaderFields: Headers { Headers([body.contentHeader]) }
+            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -73,7 +73,7 @@ final class EndpointTests: XCTestCase {
             var baseUrl = "https://example.org"
             var path = "some/path"
             var body = Body.json(["some key": "some value"])
-            var httpHeaderFields: Headers { Headers([body.contentHeader]) }
+            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -91,7 +91,7 @@ final class EndpointTests: XCTestCase {
             var baseUrl = "https://example.org"
             var path = "some/path"
             var body = Body.formUrlEncoded(["some key": "some value"])
-            var httpHeaderFields: Headers { Headers([body.contentHeader]) }
+            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -112,7 +112,7 @@ final class EndpointTests: XCTestCase {
                                                                   name: "someName",
                                                                   fileName: "someFilename",
                                                                   mimeType: "some/type"),])
-            var httpHeaderFields: Headers { Headers([body.contentHeader]) }
+            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\

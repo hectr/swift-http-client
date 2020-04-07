@@ -54,7 +54,7 @@ final class MockingNetworkProviderShould: XCTestCase {
             body: someBody,
             cachePolicy: someCachePolicy,
             timeoutInterval: someTimeoutInterval,
-            httpHeaderFields: someHeaders,
+            headers: someHeaders,
             concreteDeserializer: StringDeserializer(),
             responseBodyExample: someResponseBody
         )

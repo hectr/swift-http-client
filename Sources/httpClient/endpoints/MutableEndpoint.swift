@@ -10,7 +10,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
 
     public var cachePolicy: URLRequest.CachePolicy
     public var timeoutInterval: TimeInterval
-    public var httpHeaderFields: Headers
+    public var headers: Headers
 
     public var concreteDeserializer: DeserializerType
     public var responseDeserializer: Deserializer {
@@ -26,7 +26,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
                 body: Body = .empty,
                 cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 timeoutInterval: TimeInterval = 20.0,
-                httpHeaderFields: Headers = [],
+                headers: Headers = [],
                 concreteDeserializer: DeserializerType,
                 responseBodyExample: Body? = nil) {
         self.method = method
@@ -36,7 +36,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
         self.body = body
         self.cachePolicy = cachePolicy
         self.timeoutInterval = timeoutInterval
-        self.httpHeaderFields = httpHeaderFields
+        self.headers = headers
         self.concreteDeserializer = concreteDeserializer
         self.responseBodyExample = responseBodyExample
     }
@@ -57,7 +57,7 @@ extension MutableEndpoint: Equatable {
             && lhs.body == rhs.body
             && lhs.cachePolicy == rhs.cachePolicy
             && lhs.timeoutInterval == rhs.timeoutInterval
-            && lhs.httpHeaderFields == rhs.httpHeaderFields
+            && lhs.headers == rhs.headers
             && lhs.concreteDeserializer == rhs.concreteDeserializer
             && lhs.responseBodyExample == rhs.responseBodyExample
     }

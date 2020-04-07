@@ -48,7 +48,7 @@ public class EndpointMock: Endpoint {
 
     public var underlyingTimeoutInterval: TimeInterval!
 
-    public var httpHeaderFields: Headers = []
+    public var headers: Headers = []
 
     public var responseDeserializer: Deserializer {
         get { underlyingResponseDeserializer }
