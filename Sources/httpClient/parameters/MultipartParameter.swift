@@ -1,6 +1,6 @@
 import Foundation
 
-public struct MultipartParameter: Equatable, Codable {
+public struct MultipartParameter: Codable, Equatable {
     public let data: Data
     public let name: String
     public let fileName: String
