@@ -10,9 +10,9 @@ extension Endpoint {
         return endpoint
     }
 
-    public func addingQueryParameter(_ queryParameter: Parameter) -> Endpoint {
+    public func addingQueryParameter(_ parameter: Parameter) -> Endpoint {
         var endpoint = _Endpoint(self)
-        endpoint.queryParameters = queryParameters?.appending(queryParameter) ?? Parameters([queryParameter])
+        endpoint.query = query?.appending(parameter) ?? Parameters([parameter])
         return endpoint
     }
 

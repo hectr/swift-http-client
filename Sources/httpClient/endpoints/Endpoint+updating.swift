@@ -19,9 +19,9 @@ extension Endpoint {
         return endpoint
     }
 
-    public func updatingQueryParameters(to queryParameters: Parameters?) -> Endpoint {
+    public func updatingQuery(to query: Parameters?) -> Endpoint {
         var endpoint = _Endpoint(self)
-        endpoint.queryParameters = queryParameters
+        endpoint.query = query
         return endpoint
     }
 

@@ -50,7 +50,7 @@ final class MockingNetworkProviderShould: XCTestCase {
             method: someHttpMethod,
             baseUrl: someBaseUrl,
             path: somePath,
-            queryParameters: someParameters,
+            query: someParameters,
             body: someBody,
             cachePolicy: someCachePolicy,
             timeoutInterval: someTimeoutInterval,

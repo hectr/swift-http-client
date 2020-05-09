@@ -26,7 +26,7 @@ final class URLRequestTests: XCTestCase {
         someEndpoint.method = someHttpMethod
         someEndpoint.baseUrl = someBaseUrl
         someEndpoint.path = somePath
-        someEndpoint.queryParameters = someParameters
+        someEndpoint.query = someParameters
         someEndpoint.cachePolicy = someCachePolicy
         someEndpoint.timeoutInterval = someTimeoutInterval
     }

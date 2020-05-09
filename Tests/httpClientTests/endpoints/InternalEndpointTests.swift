@@ -55,7 +55,7 @@ final class InternalEndpointTests: XCTestCase {
         someEndpoint = _Endpoint(method: someHttpMethod,
                                  baseUrl: someBaseUrl,
                                  path: somePath,
-                                 queryParameters: someParameters,
+                                 query: someParameters,
                                  body: someBody,
                                  cachePolicy: someCachePolicy,
                                  timeoutInterval: someTimeoutInterval,
@@ -66,7 +66,7 @@ final class InternalEndpointTests: XCTestCase {
 
     func testEndpointAddinggMethods() {
         let anotherEndpoint = someEndpoint
-            .updatingQueryParameters(to: [])
+            .updatingQuery(to: [])
             .updatingHeaders(to: [])
             .addingPathComponent(somePathComponent)
             .addingQueryParameter(someParameter)
@@ -74,7 +74,7 @@ final class InternalEndpointTests: XCTestCase {
         XCTAssertEqual(anotherEndpoint.method, someHttpMethod)
         XCTAssertEqual(anotherEndpoint.baseUrl, someBaseUrl)
         XCTAssertEqual(anotherEndpoint.path, somePath + "/" + somePathComponent)
-        XCTAssertEqual(anotherEndpoint.queryParameters, Parameters([someParameter]))
+        XCTAssertEqual(anotherEndpoint.query, Parameters([someParameter]))
         XCTAssertEqual(anotherEndpoint.body, someBody)
         XCTAssertEqual(anotherEndpoint.cachePolicy, someCachePolicy)
         XCTAssertEqual(anotherEndpoint.timeoutInterval, someTimeoutInterval)
@@ -88,7 +88,7 @@ final class InternalEndpointTests: XCTestCase {
             .updatingMethod(to: anotherHttpMethod)
             .updatingBaseUrl(to: anotherBaseUrl)
             .updatingPath(to: anotherPath)
-            .updatingQueryParameters(to: anotherParameters)
+            .updatingQuery(to: anotherParameters)
             .updatingBody(to: anotherBody)
             .updatingCachePolicy(to: anotherCachePolicy)
             .updatingTimeoutInterval(to: anotherTimeoutInterval)
@@ -98,7 +98,7 @@ final class InternalEndpointTests: XCTestCase {
         XCTAssertEqual(anotherEndpoint.method, anotherHttpMethod)
         XCTAssertEqual(anotherEndpoint.baseUrl, anotherBaseUrl)
         XCTAssertEqual(anotherEndpoint.path, anotherPath)
-        XCTAssertEqual(anotherEndpoint.queryParameters, anotherParameters)
+        XCTAssertEqual(anotherEndpoint.query, anotherParameters)
         XCTAssertEqual(anotherEndpoint.body, anotherBody)
         XCTAssertEqual(anotherEndpoint.cachePolicy, anotherCachePolicy)
         XCTAssertEqual(anotherEndpoint.timeoutInterval, anotherTimeoutInterval)
@@ -112,7 +112,7 @@ final class InternalEndpointTests: XCTestCase {
         XCTAssertEqual(equivalent.method, someHttpMethod)
         XCTAssertEqual(equivalent.baseUrl, someBaseUrl)
         XCTAssertEqual(equivalent.path, somePath)
-        XCTAssertEqual(equivalent.queryParameters, someParameters)
+        XCTAssertEqual(equivalent.query, someParameters)
         XCTAssertEqual(equivalent.body, someBody)
         XCTAssertEqual(equivalent.cachePolicy, someCachePolicy)
         XCTAssertEqual(equivalent.timeoutInterval, someTimeoutInterval)

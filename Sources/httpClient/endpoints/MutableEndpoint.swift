@@ -4,7 +4,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
     public var method: HTTPMethod
     public var baseUrl: String
     public var path: String
-    public var queryParameters: Parameters?
+    public var query: Parameters?
 
     public var body: Body
 
@@ -22,7 +22,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
     public init(method: HTTPMethod = .get,
                 baseUrl: String,
                 path: String,
-                queryParameters: Parameters?,
+                query: Parameters?,
                 body: Body = .empty,
                 cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 timeoutInterval: TimeInterval = 20.0,
@@ -32,7 +32,7 @@ public struct MutableEndpoint<DeserializerType: Codable & Deserializer & Equatab
         self.method = method
         self.baseUrl = baseUrl
         self.path = path
-        self.queryParameters = queryParameters
+        self.query = query
         self.body = body
         self.cachePolicy = cachePolicy
         self.timeoutInterval = timeoutInterval
@@ -53,7 +53,7 @@ extension MutableEndpoint: Equatable {
         lhs.method == rhs.method
             && lhs.baseUrl == rhs.baseUrl
             && lhs.path == rhs.path
-            && lhs.queryParameters == rhs.queryParameters
+            && lhs.query == rhs.query
             && lhs.body == rhs.body
             && lhs.cachePolicy == rhs.cachePolicy
             && lhs.timeoutInterval == rhs.timeoutInterval

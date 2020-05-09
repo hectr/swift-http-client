@@ -4,7 +4,7 @@ struct _Endpoint: Endpoint {
     var method: HTTPMethod
     var baseUrl: String
     var path: String
-    var queryParameters: Parameters?
+    var query: Parameters?
 
     var body: Body
 
@@ -18,7 +18,7 @@ struct _Endpoint: Endpoint {
     init(method: HTTPMethod = .get,
          baseUrl: String,
          path: String,
-         queryParameters: Parameters?,
+         query: Parameters?,
          body: Body = .empty,
          cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
          timeoutInterval: TimeInterval = 20.0,
@@ -28,7 +28,7 @@ struct _Endpoint: Endpoint {
         self.method = method
         self.baseUrl = baseUrl
         self.path = path
-        self.queryParameters = queryParameters
+        self.query = query
         self.body = body
         self.cachePolicy = cachePolicy
         self.timeoutInterval = timeoutInterval
@@ -41,7 +41,7 @@ struct _Endpoint: Endpoint {
         self.init(method: endpoint.method,
                   baseUrl: endpoint.baseUrl,
                   path: endpoint.path,
-                  queryParameters: endpoint.queryParameters,
+                  query: endpoint.query,
                   body: endpoint.body,
                   cachePolicy: endpoint.cachePolicy,
                   timeoutInterval: endpoint.timeoutInterval,

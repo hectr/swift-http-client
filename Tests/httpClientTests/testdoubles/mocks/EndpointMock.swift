@@ -25,7 +25,7 @@ class EndpointMock: Endpoint {
 
     var underlyingPath: String!
 
-    var queryParameters: Parameters?
+    var query: Parameters?
 
     var body: Body {
         get { underlyingBody }
