@@ -43,7 +43,7 @@ extension BodyParameters: Codable {
 
 extension BodyParameters {
     public static func == (lhs: BodyParameters, rhs: BodyParameters) -> Bool {
-        (try? lhs.bodyParameter.toJSONData() == rhs.bodyParameter.toJSONData()) ?? false
+        lhs.bodyParameter._visitParameter() == rhs.bodyParameter._visitParameter()
     }
 }
 
