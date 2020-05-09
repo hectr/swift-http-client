@@ -11,8 +11,10 @@ final class InternalEndpointTests: XCTestCase {
     var anotherHttpMethod: HTTPMethod!
     var someBaseUrl: String!
     var anotherBaseUrl: String!
+    var somePathComponent: String!
     var somePath: String!
     var anotherPath: String!
+    var someParameter: Parameter!
     var someParameters: Parameters!
     var anotherParameters: Parameters!
     var someBody: Body!
@@ -34,8 +36,10 @@ final class InternalEndpointTests: XCTestCase {
         anotherHttpMethod = "POST"
         someBaseUrl = "https://example.org"
         anotherBaseUrl = "http://example.net"
+        somePathComponent = "copmonent"
         somePath = "some/path"
         anotherPath = "another/path"
+        someParameter = Parameter(key: "key", value: "value")
         someParameters = [("some key", "some value")]
         anotherParameters = [("another key", "another value")]
         someBody = "some body"
@@ -60,7 +64,26 @@ final class InternalEndpointTests: XCTestCase {
                                  responseBodyExample: .data(someData))
     }
 
-    func testEndpointMutatingMethods() {
+    func testEndpointAddinggMethods() {
+        let anotherEndpoint = someEndpoint
+            .updatingQueryParameters(to: [])
+            .updatingHeaders(to: [])
+            .addingPathComponent(somePathComponent)
+            .addingQueryParameter(someParameter)
+            .addingHeader(someParameter)
+        XCTAssertEqual(anotherEndpoint.method, someHttpMethod)
+        XCTAssertEqual(anotherEndpoint.baseUrl, someBaseUrl)
+        XCTAssertEqual(anotherEndpoint.path, somePath + "/" + somePathComponent)
+        XCTAssertEqual(anotherEndpoint.queryParameters, Parameters([someParameter]))
+        XCTAssertEqual(anotherEndpoint.body, someBody)
+        XCTAssertEqual(anotherEndpoint.cachePolicy, someCachePolicy)
+        XCTAssertEqual(anotherEndpoint.timeoutInterval, someTimeoutInterval)
+        XCTAssertEqual(anotherEndpoint.headers, Headers([someParameter]))
+        XCTAssertTrue(anotherEndpoint.responseDeserializer is StringDeserializer)
+        XCTAssertEqual(anotherEndpoint.responseBodyExample, .data(someData))
+    }
+
+    func testEndpointUpdatingMethods() {
         let anotherEndpoint = someEndpoint
             .updatingMethod(to: anotherHttpMethod)
             .updatingBaseUrl(to: anotherBaseUrl)

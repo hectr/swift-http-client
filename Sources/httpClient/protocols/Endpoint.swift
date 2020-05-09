@@ -15,6 +15,10 @@ public protocol Endpoint {
     var responseDeserializer: Deserializer { get }
     var responseBodyExample: Body? { get }
 
+    func addingPathComponent(_ component: String) -> Endpoint
+    func addingQueryParameter(_ queryParameter: Parameter) -> Endpoint
+    func addingHeader(_ header: Header) -> Endpoint
+
     func updatingMethod(to method: HTTPMethod) -> Endpoint
     func updatingBaseUrl(to baseUrl: String) -> Endpoint
     func updatingPath(to path: String) -> Endpoint
@@ -22,7 +26,7 @@ public protocol Endpoint {
     func updatingBody(to body: Body) -> Endpoint
     func updatingCachePolicy(to cachePolicy: URLRequest.CachePolicy) -> Endpoint
     func updatingTimeoutInterval(to timeoutInterval: TimeInterval) -> Endpoint
-    func updatingHeaders(to httpHeaderFields: Headers) -> Endpoint
+    func updatingHeaders(to headers: Headers) -> Endpoint
     func updatingResponseDeserializer(to responseDeserializer: Deserializer) -> Endpoint
     func updatingResponseBodyExample(to responseBodyExample: Body?) -> Endpoint
 }
