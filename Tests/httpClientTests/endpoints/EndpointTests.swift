@@ -110,7 +110,7 @@ final class EndpointTests: XCTestCase {
             var path = "some/path"
             var body = Body.multipartFormData([MultipartParameter(data: Data(),
                                                                   name: "someName",
-                                                                  fileName: "someFilename",
+                                                                  filename: "someFilename",
                                                                   mimeType: "some/type")])
             var headers: Headers { Headers([body.contentHeader]) }
         }
@@ -119,6 +119,48 @@ final class EndpointTests: XCTestCase {
           --request POST \\
           --header 'Content-Type: multipart/form-data' \\
           --form 'name=someName;filename=someFilename;data=@filename;type=some/type' \\
+          "https://example.org/some/path"
+        """
+        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
+    }
+
+    func testMultipartformDataBodyCurlWithoutFilename() {
+        struct JsonBody: Endpoint {
+            var method = HTTPMethod.post
+            var baseUrl = "https://example.org"
+            var path = "some/path"
+            var body = Body.multipartFormData([MultipartParameter(data: Data(),
+                                                                  name: "someName",
+                                                                  filename: nil,
+                                                                  mimeType: "some/type")])
+            var headers: Headers { Headers([body.contentHeader]) }
+        }
+        let expected = """
+        curl \\
+          --request POST \\
+          --header 'Content-Type: multipart/form-data' \\
+          --form 'name=someName;data=@filename;type=some/type' \\
+          "https://example.org/some/path"
+        """
+        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
+    }
+
+    func testMultipartformDataBodyCurlWithoutMimeType() {
+        struct JsonBody: Endpoint {
+            var method = HTTPMethod.post
+            var baseUrl = "https://example.org"
+            var path = "some/path"
+            var body = Body.multipartFormData([MultipartParameter(data: Data(),
+                                                                  name: "someName",
+                                                                  filename: "someFilename",
+                                                                  mimeType: nil)])
+            var headers: Headers { Headers([body.contentHeader]) }
+        }
+        let expected = """
+        curl \\
+          --request POST \\
+          --header 'Content-Type: multipart/form-data' \\
+          --form 'name=someName;filename=someFilename;data=@filename' \\
           "https://example.org/some/path"
         """
         XCTAssertEqual(JsonBody().cURL(verbose: false), expected)

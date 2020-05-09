@@ -19,11 +19,11 @@ final class MultipartParameterTests: XCTestCase {
     func testInit() throws {
         let sut = MultipartParameter(data: someData,
                                      name: someName,
-                                     fileName: someFilename,
+                                     filename: someFilename,
                                      mimeType: someMimeType)
         XCTAssertEqual(someData, sut.data)
         XCTAssertEqual(someName, sut.name)
-        XCTAssertEqual(someFilename, sut.fileName)
+        XCTAssertEqual(someFilename, sut.filename)
         XCTAssertEqual(someMimeType, sut.mimeType)
     }
 }

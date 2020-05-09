@@ -46,12 +46,12 @@ extension Endpoint {
         if !multipartParameter.name.isEmpty {
             components.append("name=\(multipartParameter.name)")
         }
-        if !multipartParameter.fileName.isEmpty {
-            components.append("filename=\(multipartParameter.fileName)")
+        if let filename = multipartParameter.filename, !filename.isEmpty {
+            components.append("filename=\(filename)")
         }
         components.append("data=@filename")
-        if !multipartParameter.mimeType.isEmpty {
-            components.append("type=\(multipartParameter.mimeType)")
+        if let mimeType = multipartParameter.mimeType, !mimeType.isEmpty {
+            components.append("type=\(mimeType)")
         }
         return "--form '\(components.joined(separator: ";"))'"
     }
@@ -94,7 +94,7 @@ extension Endpoint {
         if let cookies = HTTPCookieStorage.shared.cookies(for: url) {
             return cookies.map { "--cookie \"\($0.name)=\($0.value)\"" }
         } else {
-            return []
+            return [] 
         }
     }
 }
