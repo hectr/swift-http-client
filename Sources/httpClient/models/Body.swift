@@ -45,18 +45,23 @@ public enum Body {
     public var isEmpty: Bool {
         isCase.empty
     }
+
     public var isString: Bool {
         isCase.string
     }
+
     public var isData: Bool {
         isCase.data
     }
+
     public var isJson: Bool {
         isCase.json
     }
+
     public var isFormUrlEncoded: Bool {
         isCase.formUrlEncoded
     }
+
     public var isMultipartFormData: Bool {
         isCase.multipartFormData
     }
@@ -82,7 +87,6 @@ public enum Body {
             return (empty: false, string: false, data: false, json: false, formUrlEncoded: false, multipartFormData: true)
         }
     }
-
 }
 
 // MARK: - Codable

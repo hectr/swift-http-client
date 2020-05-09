@@ -94,7 +94,7 @@ extension Endpoint {
         if let cookies = HTTPCookieStorage.shared.cookies(for: url) {
             return cookies.map { "--cookie \"\($0.name)=\($0.value)\"" }
         } else {
-            return [] 
+            return []
         }
     }
 }
