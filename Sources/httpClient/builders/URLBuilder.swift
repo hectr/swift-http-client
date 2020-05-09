@@ -11,7 +11,7 @@ public final class URLBuilder {
     }
 
     @discardableResult
-    public func add(path: String) throws -> URLBuilder {
+    public func add(path: String) throws -> Self {
         var url = try components.build()
         url.appendPathComponent(path)
         components.path = url.path
@@ -19,12 +19,12 @@ public final class URLBuilder {
     }
 
     @discardableResult
-    public func add(parameter: Parameter) -> URLBuilder {
+    public func add(parameter: Parameter) -> Self {
         add(parameters: Parameters([parameter]))
     }
 
     @discardableResult
-    public func add(parameters: Parameters?) -> URLBuilder {
+    public func add(parameters: Parameters?) -> Self {
         guard let parameters = parameters else {
             return self
         }

@@ -1,7 +1,7 @@
 import Foundation
 
 extension URLRequest {
-    public static func build(with endpoint: Endpoint) throws -> URLRequest {
+    public static func build(with endpoint: Endpoint) throws -> Self {
         let url = try URL.build(with: endpoint)
         let request = URLRequestBuilder(url: url)
             .add(httpHeaderFields: endpoint.headers)

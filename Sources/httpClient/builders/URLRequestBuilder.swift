@@ -8,7 +8,7 @@ public final class URLRequestBuilder {
     }
 
     @discardableResult
-    public func add(contentType: Parameter?) -> URLRequestBuilder {
+    public func add(contentType: Parameter?) -> Self {
         if let contentType = contentType {
             urlRequest.setValue(contentType.value, forHTTPHeaderField: contentType.key)
         }
@@ -16,12 +16,12 @@ public final class URLRequestBuilder {
     }
 
     @discardableResult
-    public func add(httpHeaderField: Header) -> URLRequestBuilder {
+    public func add(httpHeaderField: Header) -> Self {
         add(httpHeaderFields: Headers([httpHeaderField]))
     }
 
     @discardableResult
-    public func add(httpHeaderFields: Headers) -> URLRequestBuilder {
+    public func add(httpHeaderFields: Headers) -> Self {
         httpHeaderFields.forEach { parameter in
             urlRequest.addValue(parameter.value, forHTTPHeaderField: parameter.key)
         }
@@ -33,25 +33,25 @@ public final class URLRequestBuilder {
     }
 
     @discardableResult
-    public func set(httpBody: Data?) -> URLRequestBuilder {
+    public func set(httpBody: Data?) -> Self {
         urlRequest.httpBody = httpBody
         return self
     }
 
     @discardableResult
-    public func set(cachePolicy: URLRequest.CachePolicy) -> URLRequestBuilder {
+    public func set(cachePolicy: URLRequest.CachePolicy) -> Self {
         urlRequest.cachePolicy = cachePolicy
         return self
     }
 
     @discardableResult
-    public func set(httpMethod: HTTPMethod) -> URLRequestBuilder {
+    public func set(httpMethod: HTTPMethod) -> Self {
         urlRequest.httpMethod = httpMethod.rawValue
         return self
     }
 
     @discardableResult
-    public func set(timeoutInterval: TimeInterval) -> URLRequestBuilder {
+    public func set(timeoutInterval: TimeInterval) -> Self {
         urlRequest.timeoutInterval = timeoutInterval
         return self
     }
