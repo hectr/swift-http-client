@@ -21,6 +21,10 @@ public struct Parameters: Equatable {
         self = Parameters(parameters)
     }
 
+    public func appending(_ parameter: Parameter) -> Self {
+        Self(parameters + [parameter])
+    }
+
     public func toURLComponents() -> URLComponents {
         var components = URLComponents()
         components.queryItems = parameters.map { $0.toURLQueryItem() }
