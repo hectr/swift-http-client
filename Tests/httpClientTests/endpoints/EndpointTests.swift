@@ -10,7 +10,7 @@ final class EndpointTests: XCTestCase {
         }
         let expected = """
         curl --verbose \\
-          -X GET \\
+          --request GET \\
           "https://example.org/some/path"
         """
         XCTAssertEqual(SomeEndpoint().cURL(), expected)
@@ -24,8 +24,8 @@ final class EndpointTests: XCTestCase {
         }
         let expected = """
         curl \\
-          -X GET \\
-          -H 'Content-Length: 0' \\
+          --request GET \\
+          --header 'Content-Length: 0' \\
           "https://example.org/some/path"
         """
         XCTAssertEqual(EmptyBody().cURL(verbose: false), expected)
@@ -41,8 +41,8 @@ final class EndpointTests: XCTestCase {
         }
         let expected = """
         curl \\
-          -X POST \\
-          -H 'Content-Type: text/plain; charset=UTF-8' \\
+          --request POST \\
+          --header 'Content-Type: text/plain; charset=UTF-8' \\
           --data-binary "some string" \\
           "https://example.org/some/path"
         """
@@ -59,8 +59,8 @@ final class EndpointTests: XCTestCase {
         }
         let expected = """
         curl \\
-          -X PUT \\
-          -H 'Content-Type: application/octet-stream' \\
+          --request PUT \\
+          --header 'Content-Type: application/octet-stream' \\
           --data-binary "some data" \\
           "https://example.org/some/path"
         """
@@ -77,8 +77,8 @@ final class EndpointTests: XCTestCase {
         }
         let expected = """
         curl \\
-          -X PATCH \\
-          -H 'Content-Type: application/json; charset=UTF-8' \\
+          --request PATCH \\
+          --header 'Content-Type: application/json; charset=UTF-8' \\
           --data-binary "{\\"some key\\":\\"some value\\"}" \\
           "https://example.org/some/path"
         """
@@ -95,8 +95,8 @@ final class EndpointTests: XCTestCase {
         }
         let expected = """
         curl \\
-          -X PATCH \\
-          -H 'Content-Type: application/x-www-form-urlencoded' \\
+          --request PATCH \\
+          --header 'Content-Type: application/x-www-form-urlencoded' \\
           --data-urlencode "some%20key=some%20value" \\
           "https://example.org/some/path"
         """
@@ -116,9 +116,9 @@ final class EndpointTests: XCTestCase {
         }
         let expected = """
         curl \\
-          -X POST \\
-          -H 'Content-Type: multipart/form-data' \\
-          --form name=someName;filename=someFilename;data=@filename;type=some/type \\
+          --request POST \\
+          --header 'Content-Type: multipart/form-data' \\
+          --form 'name=someName;filename=someFilename;data=@filename;type=some/type' \\
           "https://example.org/some/path"
         """
         XCTAssertEqual(JsonBody().cURL(verbose: false), expected)

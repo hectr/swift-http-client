@@ -5,7 +5,7 @@ extension Endpoint {
     public func cURL(verbose: Bool = true,
                      fallbackBodyEncoding: String.Encoding = .utf8) -> String {
         var lines = [String]()
-        lines.append("-X \(method.rawValue)")
+        lines.append("--request \(method.rawValue)")
         lines.append(contentsOf: buildHeaders())
         lines.append(contentsOf: buildBody(fallbackEncoding: fallbackBodyEncoding))
         if let url = try? URL.build(with: self) {
@@ -25,7 +25,7 @@ extension Endpoint {
                 let name = field.key
                 let value = field.value.replacingOccurrences(of: "\'", with: "\\\'")
                 let header = "'\(name): \(value)'"
-                lines.append("-H \(header)")
+                lines.append("--header \(header)")
                 if field.key.lowercased() == "accept-encoding",
                     value.lowercased().contains(word: "gzip") {
                     lines.append("--compressed")
@@ -53,7 +53,7 @@ extension Endpoint {
         if !multipartParameter.mimeType.isEmpty {
             components.append("type=\(multipartParameter.mimeType)")
         }
-        return "--form \(components.joined(separator: ";"))"
+        return "--form '\(components.joined(separator: ";"))'"
     }
 
     private func buildBody(fallbackEncoding: String.Encoding) -> [String] {
