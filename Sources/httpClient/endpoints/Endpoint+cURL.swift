@@ -85,7 +85,7 @@ extension Endpoint {
                 return parameters.map { "-d \"\($0.key)=\($0.value)\"" }
             }
 
-        case let .multipartformData(multipartParameters):
+        case let .multipartFormData(multipartParameters):
             return multipartParameters.map { buildFormParameter(from: $0) }
         }
     }

@@ -6,7 +6,7 @@ public enum Body {
     case data(Data)
     case json(BodyParameters)
     case formUrlEncoded(Parameters)
-    case multipartformData(MultipartParameters)
+    case multipartFormData(MultipartParameters)
 
     public var contentHeader: Header {
         switch self {
@@ -37,7 +37,7 @@ public enum Body {
         case .formUrlEncoded:
             return Header(key: "Content-Type", value: "application/x-www-form-urlencoded")
 
-        case .multipartformData:
+        case .multipartFormData:
             return Header(key: "Content-Type", value: "multipart/form-data")
         }
     }
@@ -71,7 +71,7 @@ extension Body: Codable {
         case let .formUrlEncoded(parameters):
             return (nil, nil, nil, parameters, nil)
 
-        case let .multipartformData(multipartParameters):
+        case let .multipartFormData(multipartParameters):
             return (nil, nil, nil, nil, multipartParameters)
         }
     }
@@ -81,7 +81,7 @@ extension Body: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if let value = try container.decodeIfPresent(MultipartParameters.self, forKey: .multipartParameters) {
-            self = .multipartformData(value)
+            self = .multipartFormData(value)
         } else if let value = try container.decodeIfPresent(Parameters.self, forKey: .parameters) {
             self = .formUrlEncoded(value)
         } else if let value = try container.decodeIfPresent(BodyParameters.self, forKey: .json) {
@@ -115,7 +115,7 @@ extension Body: Codable {
         case let .formUrlEncoded(parameters):
             try container.encode(parameters, forKey: .parameters)
 
-        case let .multipartformData(multipartParameters):
+        case let .multipartFormData(multipartParameters):
             try container.encode(multipartParameters, forKey: .multipartParameters)
         }
     }

@@ -108,7 +108,7 @@ final class EndpointTests: XCTestCase {
             var method = HTTPMethod.post
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var body = Body.multipartformData([MultipartParameter(data: Data(),
+            var body = Body.multipartFormData([MultipartParameter(data: Data(),
                                                                   name: "someName",
                                                                   fileName: "someFilename",
                                                                   mimeType: "some/type")])

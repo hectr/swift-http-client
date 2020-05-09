@@ -119,6 +119,6 @@ final class MockingNetworkProviderShould: XCTestCase {
         XCTAssertEqual(MockingNetworkProvider.convertToData(from: data), "some data".data(using: .utf8))
         XCTAssertEqual(MockingNetworkProvider.convertToData(from: json), "{\"some key\":\"some value\"}".data(using: .utf8))
         XCTAssertEqual(MockingNetworkProvider.convertToData(from: formUrlEncoded), "some%20key=some%20value".data(using: .utf8))
-        // TODO: @hectr test multipartformData
+        // TODO: @hectr test multipartFormData
     }
 }
