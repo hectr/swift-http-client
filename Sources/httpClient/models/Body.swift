@@ -41,6 +41,48 @@ public enum Body {
             return Header(key: "Content-Type", value: "multipart/form-data")
         }
     }
+
+    public var isEmpty: Bool {
+        isCase.empty
+    }
+    public var isString: Bool {
+        isCase.string
+    }
+    public var isData: Bool {
+        isCase.data
+    }
+    public var isJson: Bool {
+        isCase.json
+    }
+    public var isFormUrlEncoded: Bool {
+        isCase.formUrlEncoded
+    }
+    public var isMultipartFormData: Bool {
+        isCase.multipartFormData
+    }
+
+    private var isCase: (empty: Bool, string: Bool, data: Bool, json: Bool, formUrlEncoded: Bool, multipartFormData: Bool) {
+        switch self {
+        case .empty:
+            return (empty: true, string: false, data: false, json: false, formUrlEncoded: false, multipartFormData: false)
+
+        case .string:
+            return (empty: false, string: true, data: false, json: false, formUrlEncoded: false, multipartFormData: false)
+
+        case .data:
+            return (empty: false, string: false, data: true, json: false, formUrlEncoded: false, multipartFormData: false)
+
+        case .json:
+            return (empty: false, string: false, data: false, json: true, formUrlEncoded: false, multipartFormData: false)
+
+        case .formUrlEncoded:
+            return (empty: false, string: false, data: false, json: false, formUrlEncoded: true, multipartFormData: false)
+
+        case .multipartFormData:
+            return (empty: false, string: false, data: false, json: false, formUrlEncoded: false, multipartFormData: true)
+        }
+    }
+
 }
 
 // MARK: - Codable
