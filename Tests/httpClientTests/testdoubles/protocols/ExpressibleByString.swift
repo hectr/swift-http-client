@@ -23,9 +23,10 @@ extension ExpressibleByString where Self: RawRepresentable, Self.RawValue: Lossl
 
 extension Optional: ExpressibleByStringLiteral, ExpressibleByExtendedGraphemeClusterLiteral, ExpressibleByUnicodeScalarLiteral where Wrapped: ExpressibleByString {
     public typealias ExtendedGraphemeClusterLiteralType = String
+    public typealias StringLiteralType = String
     public typealias UnicodeScalarLiteralType = String
 
-    public init(stringLiteral value: String) {
+    public init(stringLiteral value: StringLiteralType) {
         self = Wrapped(stringRepresentation: value) ?? .none
     }
 }

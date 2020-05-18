@@ -1,10 +1,7 @@
 import Foundation
 
 public struct Parameters: Equatable {
-    public typealias ArrayLiteralElement = (String, String)
     public typealias Iterator = Array<Parameter>.Iterator
-    public typealias Key = String
-    public typealias Value = String
 
     private let parameters: [Parameter]
 
@@ -49,19 +46,19 @@ extension Parameters: Codable {
     }
 }
 
-// MARK: - ExpressibleByArrayLiteral
+// MARK: - ExpressibleByArray
 
-extension Parameters: ExpressibleByArrayLiteral {
-    public init(arrayLiteral elements: (String, String)...) {
-        self = Parameters(elements: elements)
-    }
+extension Parameters: ExpressibleByArray {
+    public typealias ArrayLiteralElement = (String, String)
 }
 
-// MARK: - ExpressibleByDictionaryLiteral
+// MARK: - ExpressibleByDictionary
 
-extension Parameters: ExpressibleByDictionaryLiteral {
-    public init(dictionaryLiteral elements: (String, String)...) {
-        self = Parameters(elements: elements)
+extension Parameters: ExpressibleByDictionary {
+    public typealias Key = String
+    public typealias Value = String
+    public init(dictionaryElements: [(Key, Value)]) {
+        self = Parameters(elements: dictionaryElements)
     }
 }
 

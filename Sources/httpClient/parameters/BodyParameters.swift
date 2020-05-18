@@ -1,10 +1,6 @@
 import Foundation
 
-public struct BodyParameters: Equatable {
-    public typealias ArrayLiteralElement = BodyParameter
-    public typealias Key = String
-    public typealias Value = BodyParameter
-
+public struct BodyParameters {
     private let bodyParameter: BodyParameter
 
     public init(_ bodyParameter: BodyParameter) {
@@ -41,25 +37,30 @@ extension BodyParameters: Codable {
 
 // MARK: - Equatable
 
-extension BodyParameters {
+extension BodyParameters: Equatable {
     public static func == (lhs: BodyParameters, rhs: BodyParameters) -> Bool {
         lhs.bodyParameter._visitParameter() == rhs.bodyParameter._visitParameter()
     }
 }
 
-// MARK: - ExpressibleByArrayLiteral
+// MARK: - ExpressibleByArray
 
-extension BodyParameters: ExpressibleByArrayLiteral {
-    public init(arrayLiteral elements: BodyParameter...) {
+extension BodyParameters: ExpressibleByArray {
+    public typealias ArrayLiteralElement = BodyParameter
+
+    public init(elements: [ArrayLiteralElement]) {
         self = BodyParameters(elements)
     }
 }
 
-// MARK: - ExpressibleByDictionaryLiteral
+// MARK: - ExpressibleByDictionary
 
-extension BodyParameters: ExpressibleByDictionaryLiteral {
-    public init(dictionaryLiteral elements: (String, BodyParameter)...) {
-        let bodyParameter = elements.reduce(into: [String: BodyParameter]()) { $0[$1.0] = $1.1 }
+extension BodyParameters: ExpressibleByDictionary {
+    public typealias Key = String
+    public typealias Value = BodyParameter
+
+    public init(dictionaryElements: [(Key, Value)]) {
+        let bodyParameter = dictionaryElements.reduce(into: [String: BodyParameter]()) { $0[$1.0] = $1.1 }
         self = BodyParameters(bodyParameter)
     }
 }
@@ -68,9 +69,10 @@ extension BodyParameters: ExpressibleByDictionaryLiteral {
 
 extension BodyParameters: ExpressibleByStringLiteral, ExpressibleByExtendedGraphemeClusterLiteral, ExpressibleByUnicodeScalarLiteral {
     public typealias ExtendedGraphemeClusterLiteralType = String
+    public typealias StringLiteralType = String
     public typealias UnicodeScalarLiteralType = String
 
-    public init(stringLiteral value: String) {
+    public init(stringLiteral value: StringLiteralType) {
         self = BodyParameters(value)
     }
 }

@@ -21,29 +21,39 @@ extension BodyParameter {
     }
 }
 
+// MARK: - Bool
+
 extension Bool: BodyParameter {
     public func _visitParameter() -> [_BodyParameterDescription] {
-        return [_BodyParameterDescription("\(Self.self)", "\(self)")]
+        [_BodyParameterDescription("\(Self.self)", "\(self)")]
     }
 }
+
+// MARK: - Int
 
 extension Int: BodyParameter {
     public func _visitParameter() -> [_BodyParameterDescription] {
-        return [_BodyParameterDescription("\(Self.self)", "\(self)")]
+        [_BodyParameterDescription("\(Self.self)", "\(self)")]
     }
 }
+
+// MARK: - Double
 
 extension Double: BodyParameter {
     public func _visitParameter() -> [_BodyParameterDescription] {
-        return [_BodyParameterDescription("\(Self.self)", "\(self)")]
+        [_BodyParameterDescription("\(Self.self)", "\(self)")]
     }
 }
 
+// MARK: - String
+
 extension String: BodyParameter {
     public func _visitParameter() -> [_BodyParameterDescription] {
-        return [_BodyParameterDescription("\(Self.self)", "\(self)")]
+        [_BodyParameterDescription("\(Self.self)", "\(self)")]
     }
 }
+
+// MARK: - Array
 
 extension Array: BodyParameter where Element == BodyParameter {
     public func _visitParameter() -> [_BodyParameterDescription] {
@@ -53,6 +63,8 @@ extension Array: BodyParameter where Element == BodyParameter {
     }
 }
 
+// MARK: - Dictionary
+
 extension Dictionary: BodyParameter where Key == String, Value == BodyParameter {
     public func _visitParameter() -> [_BodyParameterDescription] {
         sorted { $0.0 < $1.0 }
@@ -61,6 +73,8 @@ extension Dictionary: BodyParameter where Key == String, Value == BodyParameter 
             }
     }
 }
+
+// MARK: - Optional
 
 extension Optional: BodyParameter where Wrapped == BodyParameter {
     public func _visitParameter() -> [_BodyParameterDescription] {
