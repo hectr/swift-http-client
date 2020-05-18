@@ -35,7 +35,7 @@ final class URLRequestTests: XCTestCase {
         let request = try URLRequest.build(with: someEndpoint)
         XCTAssertEqual(request.allHTTPHeaderFields, someHeaders.toHeaderFields())
         XCTAssertEqual(request.url?.absoluteString, "http://example.org/path?key=value")
-        XCTAssertEqual(request.httpMethod, someHttpMethod.rawValue)
+        XCTAssertEqual(request.httpMethod, someHttpMethod.verb)
         XCTAssertEqual(request.timeoutInterval, someTimeoutInterval)
         XCTAssertEqual(request.cachePolicy, someCachePolicy)
     }

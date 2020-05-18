@@ -46,7 +46,7 @@ public final class URLRequestBuilder {
 
     @discardableResult
     public func set(httpMethod: HTTPMethod) -> Self {
-        urlRequest.httpMethod = httpMethod.rawValue
+        urlRequest.httpMethod = httpMethod.verb
         return self
     }
 

@@ -3,25 +3,20 @@ import httpClient
 import XCTest
 
 final class HTTPMethodTests: XCTestCase {
-    func testIsExpressibleByString() {
-        let method: HTTPMethod? = "head"
-        XCTAssertEqual(method, .head)
+    func testIsExpressibleByStringLiteral() {
+        let method: HTTPMethod = "head"
+        XCTAssertEqual(method.verb, HTTPMethod.head.verb.lowercased())
     }
 
     func testLosslessStringConvertibleIgnoresCapitalization() {
-        XCTAssertEqual(HTTPMethod("gEt"), .get)
+        XCTAssertEqual(HTTPMethod("gEt").verb.uppercased(), HTTPMethod.get.verb)
         XCTAssertEqual(HTTPMethod("GET"), .get)
     }
 
-    func testRawValueEnforcesCapitalization() {
-        XCTAssertNil(HTTPMethod(rawValue: "put"))
-        XCTAssertEqual(HTTPMethod(rawValue: "PUT"), .put)
-        XCTAssertEqual(HTTPMethod.put.rawValue, "PUT")
-    }
-
     func testDescriptionIsEqualToRawValue() {
-        for method in HTTPMethod.allCases {
-            XCTAssertEqual(method.rawValue, method.description)
+        let stdMethods: [HTTPMethod] = [.connect, .delete, .get, .head, .options, .patch, .post, .put, .trace]
+        for method in stdMethods {
+            XCTAssertEqual(method.verb, method.description)
         }
     }
 }
