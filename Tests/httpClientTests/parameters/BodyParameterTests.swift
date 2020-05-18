@@ -43,7 +43,7 @@ final class BodyParameterTests: XCTestCase {
 
     func testOptionalVisitParameter() {
         XCTAssertEqual(BodyParameter?([BodyParameter]())._visitParameter(), [BodyParameter]()._visitParameter())
-        XCTAssertEqual(BodyParameter?(1234)._visitParameter(), 1234._visitParameter())
+        XCTAssertEqual(BodyParameter?(1_234)._visitParameter(), 1_234._visitParameter())
     }
 
     func testVisitParameter() {

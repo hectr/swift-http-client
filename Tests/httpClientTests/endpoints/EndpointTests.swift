@@ -7,20 +7,20 @@ final class EndpointTests: XCTestCase {
         struct SomeEndpoint: Endpoint {
             var baseUrl = "https://example.org"
             var path = "some/path"
+            var headers: Headers { [] }
         }
         let expected = """
         curl --verbose \\
           --request GET \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(SomeEndpoint().cURL(), expected)
+        XCTAssertEqual(SomeEndpoint().toCurl(), expected)
     }
 
     func testEmptyBodyCurl() {
         struct EmptyBody: Endpoint {
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -28,7 +28,7 @@ final class EndpointTests: XCTestCase {
           --header 'Content-Length: 0' \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(EmptyBody().cURL(verbose: false), expected)
+        XCTAssertEqual(EmptyBody().toCurl(verbose: false), expected)
     }
 
     func testStringBodyCurl() {
@@ -37,7 +37,6 @@ final class EndpointTests: XCTestCase {
             var baseUrl = "https://example.org"
             var path = "some/path"
             var body = Body.string(CodableString(string: "some string", encoding: .utf8))
-            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -46,7 +45,7 @@ final class EndpointTests: XCTestCase {
           --data-binary "some string" \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(StringBody().cURL(verbose: false), expected)
+        XCTAssertEqual(StringBody().toCurl(verbose: false), expected)
     }
 
     func testDataBodyCurl() {
@@ -55,7 +54,6 @@ final class EndpointTests: XCTestCase {
             var baseUrl = "https://example.org"
             var path = "some/path"
             var body = Body.data("some data".data(using: .utf8) ?? Data())
-            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -64,7 +62,7 @@ final class EndpointTests: XCTestCase {
           --data-binary "some data" \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(DataBody().cURL(verbose: false), expected)
+        XCTAssertEqual(DataBody().toCurl(verbose: false), expected)
     }
 
     func testJsonBodyCurl() {
@@ -73,7 +71,6 @@ final class EndpointTests: XCTestCase {
             var baseUrl = "https://example.org"
             var path = "some/path"
             var body = Body.json(["some key": "some value"])
-            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -82,7 +79,7 @@ final class EndpointTests: XCTestCase {
           --data-binary "{\\"some key\\":\\"some value\\"}" \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
+        XCTAssertEqual(JsonBody().toCurl(verbose: false), expected)
     }
 
     func testFormUrlEncodedBodyCurl() {
@@ -91,7 +88,6 @@ final class EndpointTests: XCTestCase {
             var baseUrl = "https://example.org"
             var path = "some/path"
             var body = Body.formUrlEncoded(["some key": "some value"])
-            var headers: Headers { Headers([body.contentHeader]) }
         }
         let expected = """
         curl \\
@@ -100,7 +96,7 @@ final class EndpointTests: XCTestCase {
           --data-urlencode "some%20key=some%20value" \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
+        XCTAssertEqual(JsonBody().toCurl(verbose: false), expected)
     }
 
     func testMultipartformDataBodyCurl() {
@@ -111,8 +107,7 @@ final class EndpointTests: XCTestCase {
             var body = Body.multipartFormData([MultipartParameter(data: Data(),
                                                                   name: "someName",
                                                                   filename: "someFilename",
-                                                                  mimeType: "some/type")])
-            var headers: Headers { Headers([body.contentHeader]) }
+                                                                  mimeType: "some/type"),])
         }
         let expected = """
         curl \\
@@ -121,7 +116,7 @@ final class EndpointTests: XCTestCase {
           --form 'name=someName;filename=someFilename;data=@filename;type=some/type' \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
+        XCTAssertEqual(JsonBody().toCurl(verbose: false), expected)
     }
 
     func testMultipartformDataBodyCurlWithoutFilename() {
@@ -132,8 +127,7 @@ final class EndpointTests: XCTestCase {
             var body = Body.multipartFormData([MultipartParameter(data: Data(),
                                                                   name: "someName",
                                                                   filename: nil,
-                                                                  mimeType: "some/type")])
-            var headers: Headers { Headers([body.contentHeader]) }
+                                                                  mimeType: "some/type"),])
         }
         let expected = """
         curl \\
@@ -142,7 +136,7 @@ final class EndpointTests: XCTestCase {
           --form 'name=someName;data=@filename;type=some/type' \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
+        XCTAssertEqual(JsonBody().toCurl(verbose: false), expected)
     }
 
     func testMultipartformDataBodyCurlWithoutMimeType() {
@@ -153,8 +147,7 @@ final class EndpointTests: XCTestCase {
             var body = Body.multipartFormData([MultipartParameter(data: Data(),
                                                                   name: "someName",
                                                                   filename: "someFilename",
-                                                                  mimeType: nil)])
-            var headers: Headers { Headers([body.contentHeader]) }
+                                                                  mimeType: nil),])
         }
         let expected = """
         curl \\
@@ -163,6 +156,6 @@ final class EndpointTests: XCTestCase {
           --form 'name=someName;filename=someFilename;data=@filename' \\
           "https://example.org/some/path"
         """
-        XCTAssertEqual(JsonBody().cURL(verbose: false), expected)
+        XCTAssertEqual(JsonBody().toCurl(verbose: false), expected)
     }
 }

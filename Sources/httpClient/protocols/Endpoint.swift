@@ -41,7 +41,7 @@ extension Endpoint {
 
     public var cachePolicy: URLRequest.CachePolicy { .useProtocolCachePolicy }
     public var timeoutInterval: TimeInterval { 20.0 }
-    public var headers: Headers { [] }
+    public var headers: Headers { body.contentHeaders() }
 
     public var responseDeserializer: Deserializer { JSONDeserializer() }
     public var responseBodyExample: Body? { nil }

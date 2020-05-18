@@ -108,17 +108,17 @@ final class MockingNetworkProviderShould: XCTestCase {
         XCTAssertFalse(someLogger.logDataErrorCalled)
     }
 
-    func testConvertToData() {
+    func testConvertToData() throws {
         let empty = Body.empty
         let string = Body.string(CodableString(string: "some string", encoding: .utf8))
         let data = Body.data("some data".data(using: .utf8) ?? Data())
         let json = Body.json(["some key": "some value"])
         let formUrlEncoded = Body.formUrlEncoded(["some key": "some value"])
-        XCTAssertEqual(MockingNetworkProvider.convertToData(from: empty), Data())
-        XCTAssertEqual(MockingNetworkProvider.convertToData(from: string), "some string".data(using: .utf8))
-        XCTAssertEqual(MockingNetworkProvider.convertToData(from: data), "some data".data(using: .utf8))
-        XCTAssertEqual(MockingNetworkProvider.convertToData(from: json), "{\"some key\":\"some value\"}".data(using: .utf8))
-        XCTAssertEqual(MockingNetworkProvider.convertToData(from: formUrlEncoded), "some%20key=some%20value".data(using: .utf8))
+        XCTAssertEqual(try MockingNetworkProvider.convertToData(from: empty), Data())
+        XCTAssertEqual(try MockingNetworkProvider.convertToData(from: string), "some string".data(using: .utf8))
+        XCTAssertEqual(try MockingNetworkProvider.convertToData(from: data), "some data".data(using: .utf8))
+        XCTAssertEqual(try MockingNetworkProvider.convertToData(from: json), "{\"some key\":\"some value\"}".data(using: .utf8))
+        XCTAssertEqual(try MockingNetworkProvider.convertToData(from: formUrlEncoded), "some%20key=some%20value".data(using: .utf8))
         // TODO: @hectr test multipartFormData
     }
 }

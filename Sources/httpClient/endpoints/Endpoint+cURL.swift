@@ -2,12 +2,11 @@ import Foundation
 import Idioms
 
 extension Endpoint {
-    public func cURL(verbose: Bool = true,
-                     fallbackBodyEncoding: String.Encoding = .utf8) -> String {
+    public func toCurl(verbose: Bool = true) -> String {
         var lines = [String]()
-        lines.append("--request \(method.rawValue)")
+        lines.append("--request \(method.verb)")
         lines.append(contentsOf: buildHeaders())
-        lines.append(contentsOf: buildBody(fallbackEncoding: fallbackBodyEncoding))
+        lines.append(contentsOf: body.toCurlBody())
         if let url = try? URL.build(with: self) {
             lines.append(contentsOf: buildCookies(for: url))
             lines.append("\"\(url.absoluteString)\"")
@@ -33,14 +32,6 @@ extension Endpoint {
             }
     }
 
-    private func escapedBody(_ string: String) -> String {
-        string
-            .replacingOccurrences(of: "\\", with: "\\\\")
-            .replacingOccurrences(of: "`", with: "\\`")
-            .replacingOccurrences(of: "\"", with: "\\\"")
-            .replacingOccurrences(of: "$", with: "\\$")
-    }
-
     private func buildFormParameter(from multipartParameter: MultipartParameter) -> String {
         var components = [String]()
         if !multipartParameter.name.isEmpty {
@@ -54,40 +45,6 @@ extension Endpoint {
             components.append("type=\(mimeType)")
         }
         return "--form '\(components.joined(separator: ";"))'"
-    }
-
-    private func buildBody(fallbackEncoding: String.Encoding) -> [String] {
-        switch body {
-        case .empty:
-            return []
-
-        case let .string(codableString):
-            return ["--data-binary \"\(escapedBody(codableString.string))\""]
-
-        case let .data(data):
-            if let string = String(data: data, encoding: fallbackEncoding) {
-                return ["--data-binary \"\(escapedBody(string))\""]
-            } else {
-                return ["--data-binary @filename"]
-            }
-
-        case let .json(bodyParameters):
-            if let string = try? bodyParameters.toJSONString() {
-                return ["--data-binary \"\(escapedBody(string))\""]
-            } else {
-                return ["--data-binary @filename"]
-            }
-
-        case let .formUrlEncoded(parameters):
-            if let string = parameters.toURLComponents().percentEncodedQuery {
-                return ["--data-urlencode \"\(escapedBody(string))\""]
-            } else {
-                return parameters.map { "-d \"\($0.key)=\($0.value)\"" }
-            }
-
-        case let .multipartFormData(multipartParameters):
-            return multipartParameters.map { buildFormParameter(from: $0) }
-        }
     }
 
     private func buildCookies(for url: URL) -> [String] {

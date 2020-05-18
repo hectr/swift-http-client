@@ -22,41 +22,30 @@ public struct MockingNetworkProvider: NetworkProvider {
             return nil
         }
         defer {
-            if let bodyData = Self.convertToData(from: endpoint.responseBodyExample) {
-                logger.log(response: HTTPURLResponse(), data: bodyData)
-                completion(Result<Data, Error>.success(bodyData))
-            } else {
-                let error = Error.invalidResponseBodyExample(endpoint)
-                logger.log(request: request, error: error)
-                completion(Result<Data, Error>.failure(error))
+            do {
+                completion(try result(for: endpoint))
+            } catch {
+                let customError = Error(error)
+                logger.log(request: request, error: customError)
+                completion(Result<Data, Error>.failure(customError))
             }
         }
         return Task()
     }
 
-    static func convertToData(from body: Body?) -> Data? {
+    static func convertToData(from body: Body?) throws -> Data? {
         guard let body = body else {
             return nil
         }
-        switch body {
-        case .empty:
-            return Data()
+        return try body.contentData()
+    }
 
-        case let .string(codableString):
-            return codableString.string.data(using: codableString.encoding)
-
-        case let .data(data):
-            return data
-
-        case let .json(bodyParameters):
-            return try? bodyParameters.toJSONData()
-
-        case let .formUrlEncoded(parameters):
-            return parameters.toURLComponents().percentEncodedQuery?.data(using: .utf8)
-
-        case .multipartFormData:
-            assertionFailure("Unsupported response example body: \(body)")
-            return nil
+    private func result(for endpoint: Endpoint) throws -> Result<Data, Error> {
+        if let bodyData = try Self.convertToData(from: endpoint.responseBodyExample) {
+            logger.log(response: HTTPURLResponse(), data: bodyData)
+            return Result<Data, Error>.success(bodyData)
+        } else {
+            throw Error.invalidResponseBodyExample(endpoint)
         }
     }
 }

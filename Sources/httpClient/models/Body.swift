@@ -1,90 +1,48 @@
 import Foundation
 
-public enum Body {
+public enum Body: BodySerializer {
     case empty
     case string(CodableString)
     case data(Data)
     case json(BodyParameters)
     case formUrlEncoded(Parameters)
     case multipartFormData(MultipartParameters)
+    case custom(AnyBodySerializer)
 
-    public var contentHeader: Header {
+    public func contentHeaders() -> Headers {
+        underlyingSerializer.contentHeaders()
+    }
+
+    public func contentData() throws -> Data {
+        try underlyingSerializer.contentData()
+    }
+
+    public func toCurlBody() -> [String] {
+        underlyingSerializer.toCurlBody()
+    }
+
+    private var underlyingSerializer: AnyBodySerializer {
         switch self {
         case .empty:
-            return Parameter(key: "Content-Length", value: "0")
+            return AnyBodySerializer(EmptySerializer())
 
-        case let .string(codableString):
-            let charset = codableString
-                .encoding
-                .description
-                .components(separatedBy: "Unicode (")
-                .last?
-                .components(separatedBy: ")")
-                .first
-                ?? ""
-            if charset.hasPrefix("UTF-") {
-                return Header(key: "Content-Type", value: "text/plain; charset=\(charset)")
-            } else {
-                return Header(key: "Content-Type", value: "text/plain")
-            }
+        case let .string(encodableString):
+            return AnyBodySerializer(StringSerializer(encodableString))
 
-        case .data:
-            return Header(key: "Content-Type", value: "application/octet-stream")
+        case let .data(data):
+            return AnyBodySerializer(DataSerializer(data))
 
-        case .json:
-            return Header(key: "Content-Type", value: "application/json; charset=UTF-8")
+        case let .json(bodyParameters):
+            return AnyBodySerializer(JsonSerializer(bodyParameters))
 
-        case .formUrlEncoded:
-            return Header(key: "Content-Type", value: "application/x-www-form-urlencoded")
+        case let .formUrlEncoded(parameters):
+            return AnyBodySerializer(FormUrlEncodedSerializer(parameters))
 
-        case .multipartFormData:
-            return Header(key: "Content-Type", value: "multipart/form-data")
-        }
-    }
+        case let .multipartFormData(multipartParameters):
+            return AnyBodySerializer(MultipartFormDataSerializer(multipartParameters))
 
-    public var isEmpty: Bool {
-        isCase.empty
-    }
-
-    public var isString: Bool {
-        isCase.string
-    }
-
-    public var isData: Bool {
-        isCase.data
-    }
-
-    public var isJson: Bool {
-        isCase.json
-    }
-
-    public var isFormUrlEncoded: Bool {
-        isCase.formUrlEncoded
-    }
-
-    public var isMultipartFormData: Bool {
-        isCase.multipartFormData
-    }
-
-    private var isCase: (empty: Bool, string: Bool, data: Bool, json: Bool, formUrlEncoded: Bool, multipartFormData: Bool) {
-        switch self {
-        case .empty:
-            return (empty: true, string: false, data: false, json: false, formUrlEncoded: false, multipartFormData: false)
-
-        case .string:
-            return (empty: false, string: true, data: false, json: false, formUrlEncoded: false, multipartFormData: false)
-
-        case .data:
-            return (empty: false, string: false, data: true, json: false, formUrlEncoded: false, multipartFormData: false)
-
-        case .json:
-            return (empty: false, string: false, data: false, json: true, formUrlEncoded: false, multipartFormData: false)
-
-        case .formUrlEncoded:
-            return (empty: false, string: false, data: false, json: false, formUrlEncoded: true, multipartFormData: false)
-
-        case .multipartFormData:
-            return (empty: false, string: false, data: false, json: false, formUrlEncoded: false, multipartFormData: true)
+        case let .custom(bodySerializer):
+            return bodySerializer
         }
     }
 }
@@ -98,28 +56,7 @@ extension Body: Codable {
         case json
         case parameters
         case multipartParameters
-    }
-
-    private var associatedValues: (CodableString?, Data?, BodyParameters?, Parameters?, MultipartParameters?) {
-        switch self {
-        case .empty:
-            return (nil, nil, nil, nil, nil)
-
-        case let .string(encodableString):
-            return (encodableString, nil, nil, nil, nil)
-
-        case let .data(data):
-            return (nil, data, nil, nil, nil)
-
-        case let .json(bodyParameters):
-            return (nil, nil, bodyParameters, nil, nil)
-
-        case let .formUrlEncoded(parameters):
-            return (nil, nil, nil, parameters, nil)
-
-        case let .multipartFormData(multipartParameters):
-            return (nil, nil, nil, nil, multipartParameters)
-        }
+        case bodySerializer
     }
 
     // MARK: Decodable
@@ -136,6 +73,8 @@ extension Body: Codable {
             self = .data(value)
         } else if let value = try container.decodeIfPresent(CodableString.self, forKey: .string) {
             self = .string(value)
+        } else if let value = try container.decodeIfPresent(AnyBodySerializer.self, forKey: .bodySerializer) {
+            self = .custom(value)
         } else {
             self = .empty
         }
@@ -163,6 +102,9 @@ extension Body: Codable {
 
         case let .multipartFormData(multipartParameters):
             try container.encode(multipartParameters, forKey: .multipartParameters)
+
+        case let .custom(bodySerializer):
+            try container.encode(bodySerializer, forKey: .bodySerializer)
         }
     }
 }
@@ -171,7 +113,31 @@ extension Body: Codable {
 
 extension Body: Equatable {
     public static func == (lhs: Body, rhs: Body) -> Bool {
-        lhs.associatedValues == rhs.associatedValues
+        switch (lhs, rhs) {
+        case (.empty, .empty):
+            return true
+
+        case let (.string(lhs), .string(rhs)):
+            return lhs == rhs
+
+        case let (.data(lhs), .data(rhs)):
+            return lhs == rhs
+
+        case let (.json(lhs), .json(rhs)):
+            return lhs == rhs
+
+        case let (.formUrlEncoded(lhs), .formUrlEncoded(rhs)):
+            return lhs == rhs
+
+        case let (.multipartFormData(lhs), .multipartFormData(rhs)):
+            return lhs == rhs
+
+        case let (.custom(lhs), .custom(rhs)):
+            return lhs == rhs
+
+        default:
+            return false
+        }
     }
 }
 
