@@ -10,10 +10,7 @@ public struct CodableString: Codable, Equatable {
     }
 
     public func toData() throws -> Data {
-        guard let data = string.data(using: encoding) else {
-            throw Error.stringNotSerializable(string, encoding)
-        }
-        return data
+        try string.toData(encoding: encoding)
     }
 }
 
@@ -21,9 +18,10 @@ public struct CodableString: Codable, Equatable {
 
 extension CodableString: ExpressibleByStringLiteral, ExpressibleByExtendedGraphemeClusterLiteral, ExpressibleByUnicodeScalarLiteral {
     public typealias ExtendedGraphemeClusterLiteralType = String
+    public typealias StringLiteralType = String
     public typealias UnicodeScalarLiteralType = String
 
-    public init(stringLiteral value: String) {
-        self = .init(string: value, encoding: .utf8)
+    public init(stringLiteral value: StringLiteralType) {
+        self.init(string: value, encoding: .utf8)
     }
 }

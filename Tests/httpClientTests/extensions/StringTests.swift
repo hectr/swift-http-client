@@ -3,6 +3,11 @@ import httpClient
 import XCTest
 
 final class StringTests: XCTestCase {
+    func testToData() throws {
+        XCTAssertEqual(try "some string".toData(), "some string".data(using: .utf8))
+        XCTAssertEqual(try "some string".toData(encoding: .utf16), "some string".data(using: .utf16))
+    }
+
     func testToDate() throws {
         let someDateString = "2020-04-03T15:57:46Z"
         let expectedDate = ISO8601DateFormatter().date(from: someDateString)
