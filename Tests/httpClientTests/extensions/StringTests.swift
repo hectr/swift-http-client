@@ -1,5 +1,5 @@
 import Foundation
-import httpClient
+@testable import httpClient
 import XCTest
 
 final class StringTests: XCTestCase {
@@ -14,6 +14,10 @@ final class StringTests: XCTestCase {
         let date = try? someDateString.toDate()
         XCTAssertEqual(date, expectedDate)
         XCTAssertThrowsError(try "invalid date".toDate())
+    }
+
+    func testToEscapedString() throws {
+        XCTAssertEqual("$\\`sóme\nstrïng`\\$".toEscapedString(), "\\$\\\\\\`sóme\nstrïng\\`\\\\\\$")
     }
 
     func testToInt() throws {
