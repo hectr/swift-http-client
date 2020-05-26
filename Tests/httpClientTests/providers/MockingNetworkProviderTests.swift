@@ -108,17 +108,40 @@ final class MockingNetworkProviderShould: XCTestCase {
         XCTAssertFalse(someLogger.logDataErrorCalled)
     }
 
-    func testConvertToData() throws {
+    func testConvertToDataWithEmptyBody() throws {
         let empty = Body.empty
-        let string = Body.string(CodableString(string: "some string", encoding: .utf8))
-        let data = Body.data("some data".data(using: .utf8) ?? Data())
-        let json = Body.json(["some key": "some value"])
-        let formUrlEncoded = Body.formUrlEncoded(["some key": "some value"])
         XCTAssertEqual(try MockingNetworkProvider.convertToData(from: empty), Data())
+    }
+
+    func testConvertToDataWithStringBody() throws {
+        let string = Body.string(CodableString(string: "some string", encoding: .utf8))
         XCTAssertEqual(try MockingNetworkProvider.convertToData(from: string), "some string".data(using: .utf8))
+    }
+
+    func testConvertToDataWithDataBody() throws {
+        let data = Body.data("some data".data(using: .utf8) ?? Data())
         XCTAssertEqual(try MockingNetworkProvider.convertToData(from: data), "some data".data(using: .utf8))
+    }
+
+    func testConvertToDataWithJsonBody() throws {
+        let json = Body.json(["some key": "some value"])
         XCTAssertEqual(try MockingNetworkProvider.convertToData(from: json), "{\"some key\":\"some value\"}".data(using: .utf8))
+    }
+
+    func testConvertToDataWithFormUrlEncodedBody() throws {
+        let formUrlEncoded = Body.formUrlEncoded(["some key": "some value"])
         XCTAssertEqual(try MockingNetworkProvider.convertToData(from: formUrlEncoded), "some%20key=some%20value".data(using: .utf8))
-        // TODO: @hectr test multipartFormData
+    }
+
+    func testConvertToDataWithMultipartBody() throws {
+        let multipart = Body.multipartFormData([
+            MultipartParameter(data: try "some data".toData(), name: "some name"),
+            MultipartParameter(data: try "other data".toData(), name: "another name"),
+        ])
+        let multipartData: Data! = try MockingNetworkProvider.convertToData(from: multipart)
+        let multipartString = String(data: multipartData, encoding: .utf8)
+        let boundary: String! = multipartString?.removingPrefix("\r\n--httpClient.boundary.").components(separatedBy: "\r").first
+        let expectedString = "\r\n--httpClient.boundary.#\r\nContent-Disposition: form-data; name=\"some name\"\r\n\r\nsome data\r\n--httpClient.boundary.#\r\nContent-Disposition: form-data; name=\"another name\"\r\n\r\nother data\r\n\r\n--httpClient.boundary.#--\r\n".replacingOccurrences(of: "#", with: boundary)
+        XCTAssertEqual(multipartString, expectedString)
     }
 }

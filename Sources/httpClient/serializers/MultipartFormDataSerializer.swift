@@ -2,9 +2,15 @@ import Foundation
 
 public struct MultipartFormDataSerializer: BodySerializer, Codable, Equatable {
     private let parameters: MultipartParameters
+    private let boundary: String
 
-    public init(_ parameters: MultipartParameters) {
+    public init(_ parameters: MultipartParameters, boundary: String? = nil) {
         self.parameters = parameters
+        if let boundary = boundary {
+            self.boundary = boundary
+        } else {
+            self.boundary = "httpClient.boundary.\(UUID().uuidString)"
+        }
     }
 
     public func contentHeaders() -> Headers {
@@ -12,7 +18,13 @@ public struct MultipartFormDataSerializer: BodySerializer, Codable, Equatable {
     }
 
     public func contentData() throws -> Data {
-        throw NSError(domain: #function, code: #line, userInfo: [NSLocalizedDescriptionKey: "Not implemented yet"]) // TODO: @hectr implement
+        var data = Data()
+        for (index, parameter) in parameters.enumerated() {
+            let part = try parameter.toData(boundary: boundary, isEncapsulation: index == 0)
+            data.append(part)
+        }
+        try addFinalBoundary(to: &data)
+        return data
     }
 
     public func toCurlBody() -> [String] {
@@ -32,5 +44,15 @@ public struct MultipartFormDataSerializer: BodySerializer, Codable, Equatable {
             components.append("type=\(mimeType)")
         }
         return "--form '\(components.joined(separator: ";"))'"
+    }
+
+    private func addFinalBoundary(to data: inout Data) throws {
+        let dashes = try "--".toData()
+        let crlf = try "\r\n".toData()
+        data.append(crlf)
+        data.append(dashes)
+        data.append(try boundary.toData())
+        data.append(dashes)
+        data.append(crlf)
     }
 }
