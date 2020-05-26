@@ -28,7 +28,12 @@ public struct MultipartFormDataSerializer: BodySerializer, Codable, Equatable {
     }
 
     public func toCurlBody() -> [String] {
-        parameters.map { buildFormParameter(from: $0) }
+        do {
+            let data = try contentData()
+            return try data.toCurlBody()
+        } catch {
+            return parameters.map { buildFormParameter(from: $0) }
+        }
     }
 
     private func buildFormParameter(from multipartParameter: MultipartParameter) -> String {

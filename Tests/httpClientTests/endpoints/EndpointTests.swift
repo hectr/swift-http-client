@@ -3,6 +3,11 @@ import Foundation
 import XCTest
 
 final class EndpointTests: XCTestCase {
+    static var nonUtf8Data: Data = {
+        let bytes: [UInt32] = [128]
+        return Data(bytes: bytes, count: bytes.count * MemoryLayout<UInt32>.stride)
+    }()
+
     func testCurlVerbose() {
         struct SomeEndpoint: Endpoint {
             var baseUrl = "https://example.org"
@@ -104,7 +109,7 @@ final class EndpointTests: XCTestCase {
             var method = HTTPMethod.post
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var body = Body.multipartFormData([MultipartParameter(data: Data(),
+            var body = Body.multipartFormData([MultipartParameter(data: EndpointTests.nonUtf8Data,
                                                                   name: "someName",
                                                                   filename: "someFilename",
                                                                   mimeType: "some/type"),])
@@ -124,7 +129,7 @@ final class EndpointTests: XCTestCase {
             var method = HTTPMethod.post
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var body = Body.multipartFormData([MultipartParameter(data: Data(),
+            var body = Body.multipartFormData([MultipartParameter(data: EndpointTests.nonUtf8Data,
                                                                   name: "someName",
                                                                   filename: nil,
                                                                   mimeType: "some/type"),])
@@ -144,7 +149,7 @@ final class EndpointTests: XCTestCase {
             var method = HTTPMethod.post
             var baseUrl = "https://example.org"
             var path = "some/path"
-            var body = Body.multipartFormData([MultipartParameter(data: Data(),
+            var body = Body.multipartFormData([MultipartParameter(data: EndpointTests.nonUtf8Data,
                                                                   name: "someName",
                                                                   filename: "someFilename",
                                                                   mimeType: nil),])
